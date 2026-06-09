@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Break Tracker Pro</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-h:58px;--side-w:248px;
+  --accent:#2563EB;--accent-light:#EFF6FF;--accent-mid:#BFDBFE;--accent-dark:#1D4ED8;
+  --red:#DC2626;--red-light:#FEF2F2;--red-mid:#FECACA;
+  --green:#16A34A;--green-light:#F0FDF4;--green-mid:#BBF7D0;
+  --amber:#D97706;--amber-light:#FFFBEB;--amber-mid:#FDE68A;
+  --purple:#7C3AED;--purple-light:#F5F3FF;--purple-mid:#DDD6FE;
+  --teal:#0D9488;--teal-light:#F0FDFA;
+  --bg:#F8FAFC;--surface:#FFFFFF;
+  --border:#E2E8F0;--border-light:#F1F5F9;
+  --text:#0F172A;--text2:#64748B;--text3:#94A3B8;
+  --r:10px;--rl:14px;--rxl:18px;
+  --sh:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.05);
+  --sh-md:0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
+  --sh-lg:0 10px 25px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.05);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;font-size:13px;color:var(--text);background:var(--bg);min-height:100vh}
+
+/* NAVBAR */
+.navbar{height:var(--nav-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:var(--sh)}
+.brand{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;letter-spacing:-0.3px}
+.brand-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.brand-icon svg{color:#fff}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nb-file{font-size:11px;color:var(--text3);background:var(--border-light);padding:4px 10px;border-radius:20px}
+.nb-badge{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:600;background:var(--red-light);color:var(--red);display:none;border:1px solid var(--red-mid)}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - var(--nav-h))}
+
+/* SIDEBAR */
+.sidebar{width:var(--side-w);background:var(--surface);border-right:1px solid var(--border);padding:1.25rem 0;flex-shrink:0;position:sticky;top:var(--nav-h);height:calc(100vh - var(--nav-h));overflow-y:auto}
+.sidebar-section{padding:0 .875rem;margin-bottom:1.75rem}
+.sidebar-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:0 .625rem;margin-bottom:.5rem}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;user-select:none}
+.nav-item:hover{background:var(--border-light);color:var(--text)}
+.nav-item.active{background:var(--accent-light);color:var(--accent);font-weight:600}
+.nav-item.active .nav-icon{color:var(--accent)}
+.nav-icon{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text3)}
+.cpill{margin-left:auto;font-size:10px;padding:2px 7px;border-radius:20px;background:var(--red-light);color:var(--red);font-weight:700;border:1px solid var(--red-mid)}
+.shift-ref{display:flex;flex-direction:column;gap:5px;padding:0 .25rem}
+.shift-ref-item{font-size:11px;color:var(--text2);padding:4px 10px;border-left:2.5px solid;border-radius:0 4px 4px 0;background:var(--border-light)}
+
+/* MAIN */
+.main{flex:1;padding:1.5rem;min-width:0;max-width:calc(100vw - var(--side-w))}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:20px;font-weight:700;margin-bottom:1.5rem;color:var(--text);letter-spacing:-0.3px}
+.page-sub{font-size:13px;color:var(--text2);margin-top:4px;font-weight:400}
+
+/* STAT CARDS ROW */
+.stat-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:1.5rem}
+@media(max-width:800px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem;box-shadow:var(--sh);transition:box-shadow .2s;position:relative;overflow:hidden}
+.stat-card:hover{box-shadow:var(--sh-md)}
+.stat-card .sc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.875rem}
+.stat-card .sc-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.stat-card .sc-val{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-0.5px;line-height:1}
+.stat-card .sc-sub{font-size:11px;color:var(--text3);margin-top:6px}
+.stat-card .sc-bar{position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:1.25rem;box-shadow:var(--sh)}
+.card-head{padding:.875rem 1.25rem;border-bottom:1px solid var(--border-light);font-weight:600;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:var(--text)}
+.card-body{padding:1.25rem}
+.card-sub{font-size:11px;color:var(--text3);font-weight:400;margin-top:1px}
+
+/* GRID LAYOUTS */
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:1.25rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:1.25rem}
+@media(max-width:750px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border);border-radius:var(--rxl);padding:3.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;background:var(--surface)}
+.upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
+.upload-zone:hover .upload-title{color:var(--accent)}
+.upload-icon{width:56px;height:56px;margin:0 auto 16px;background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:16px;display:flex;align-items:center;justify-content:center}
+.upload-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;transition:color .2s}
+.upload-sub{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-weight:600;color:var(--text2);padding:9px 12px;border-bottom:1px solid var(--border);background:var(--border-light);white-space:nowrap;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+td{padding:9px 12px;border-bottom:1px solid var(--border-light);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .1s}
+tbody tr:hover td{background:var(--border-light)}
+.exceeded-row td{background:#FFF5F5}
+.exceeded-row:hover td{background:#FEE2E2}
+.ok-row td{background:#F0FDF4}
+.ok-row:hover td{background:#DCFCE7}
+
+/* BADGES */
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap;display:inline-block;letter-spacing:.02em}
+.b-red{background:var(--red-light);color:var(--red);border:1px solid var(--red-mid)}
+.b-green{background:var(--green-light);color:var(--green);border:1px solid var(--green-mid)}
+.b-amber{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-mid)}
+.b-blue{background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-mid)}
+.b-purple{background:var(--purple-light);color:var(--purple);border:1px solid var(--purple-mid)}
+.b-gray{background:var(--border-light);color:var(--text2);border:1px solid var(--border)}
+
+/* FILTERS */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:1.25rem}
+input[type=text],input[type=number],select{font-size:12px;padding:7px 11px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;font-weight:500}
+input[type=text]:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+button{font-size:12px;padding:7px 16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);cursor:pointer;transition:all .15s;font-weight:500}
+button:hover{background:var(--border-light);border-color:var(--text3)}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+button.primary:hover{background:var(--accent-dark)}
+button.danger{color:var(--red);border-color:var(--red-mid);background:var(--red-light)}
+button.danger:hover{background:var(--red-mid)}
+
+/* EMP ACCORDION */
+.emp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:10px;box-shadow:var(--sh);transition:box-shadow .2s}
+.emp-card:hover{box-shadow:var(--sh-md)}
+.emp-hdr{padding:.875rem 1.25rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px;transition:background .12s}
+.emp-hdr:hover{background:var(--border-light)}
+.emp-left{display:flex;align-items:center;gap:12px}
+.emp-avatar{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;border:1.5px solid}
+.emp-name{font-weight:600;font-size:13px;color:var(--text)}
+.emp-meta{font-size:11px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px}
+.emp-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.chev{width:16px;height:16px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.open .chev{transform:rotate(180deg)}
+.emp-detail{display:none;border-top:1px solid var(--border-light)}
+.emp-detail-inner{padding:.875rem 1.25rem}
+
+/* ANALYSIS CARDS (mini) */
+.mini-stat{background:var(--border-light);border-radius:var(--r);padding:.75rem 1rem;text-align:center}
+.mini-stat .ms-val{font-size:18px;font-weight:700;color:var(--text)}
+.mini-stat .ms-lbl{font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+
+/* PROGRESS */
+.pbar-wrap{display:inline-block;vertical-align:middle;width:60px;height:5px;background:var(--border);border-radius:5px;overflow:hidden;margin-left:6px}
+.pbar{height:5px;border-radius:5px;transition:width .3s}
+.pbar-lg{height:8px;border-radius:8px;background:var(--border);overflow:hidden;margin-top:6px}
+.pbar-lg-fill{height:8px;border-radius:8px;transition:width .5s}
+
+/* CHARTS */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem;box-shadow:var(--sh)}
+.chart-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.chart-sub{font-size:11px;color:var(--text3);margin-bottom:.875rem}
+.chart-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:.75rem;font-size:11px;color:var(--text2);font-weight:500}
+.chart-legend span{display:flex;align-items:center;gap:5px}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* INSIGHT CARDS */
+.insight-card{border-radius:var(--rl);padding:1rem 1.25rem;border:1px solid;display:flex;align-items:flex-start;gap:12px;margin-bottom:.75rem}
+.insight-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+
+/* SETTINGS */
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--border-light)}
+.settings-row:last-child{border-bottom:none}
+.settings-label{font-weight:600;font-size:13px;color:var(--text)}
+.settings-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.shift-table{width:100%;font-size:12px;border-collapse:collapse}
+.shift-table td{padding:6px 10px;border-bottom:1px solid var(--border-light);color:var(--text)}
+.shift-table tr:last-child td{border-bottom:none}
+.shift-swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:middle}
+.empty{text-align:center;padding:3rem 1rem;color:var(--text2);font-size:13px}
+
+/* TAB SWITCHER */
+.tab-row{display:flex;gap:4px;background:var(--border-light);padding:4px;border-radius:10px;margin-bottom:1.25rem;width:fit-content}
+.tab-btn{padding:6px 16px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all .15s}
+.tab-btn.active{background:var(--surface);color:var(--text);font-weight:600;box-shadow:var(--sh)}
+
+/* RANK BADGE */
+.rank{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;font-size:10px;font-weight:700;background:var(--border-light);color:var(--text2)}
+.rank-1{background:#FEF3C7;color:#92400E}
+.rank-2{background:#F1F5F9;color:#475569}
+.rank-3{background:#FEF2F2;color:#991B1B}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border-light);margin:1rem 0}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="white" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+    Break Tracker Pro
+  </div>
+  <div class="nav-right">
+    <span class="nb-file" id="nb-file">No file loaded</span>
+    <span class="nb-badge" id="nb-badge"></span>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Navigation</div>
+      <div class="nav-item active" onclick="goto('upload',this)">
+        <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="12" height="1.5" rx="1" fill="currentColor"/><path d="M8 2v7M5.5 4.5 8 2l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Upload file
+      </div>
+      <div class="nav-item" onclick="goto('overview',this)">
+        <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg></span>
+        Overview
+      </div>
+
+      <div class="nav-item" onclick="goto('employees',this)">
+        <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity=".6"/><path d="M2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+        Employees
+        <span class="cpill" id="side-vcount" style="display:none">0</span>
+      </div>
+      <div class="nav-item" onclick="goto('charts',this)">
+        <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="9" width="3" height="6" rx="1" fill="currentColor"/><rect x="6" y="5" width="3" height="10" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="1" width="3" height="14" rx="1" fill="currentColor" opacity=".5"/></svg></span>
+        Charts
+      </div>
+      <div class="nav-item" onclick="goto('settings',this)">
+        <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+        Settings
+      </div>
+    </div>
+
+    <div class="sidebar-section" id="shift-sidebar" style="display:none">
+      <div class="sidebar-label">Shift reference</div>
+      <div class="shift-ref">
+        <div class="shift-ref-item" style="border-color:#2563EB">General  9:00–18:30</div>
+        <div class="shift-ref-item" style="border-color:#16A34A">Morning  6:00–14:00</div>
+        <div class="shift-ref-item" style="border-color:#D97706">Afternoon  14:00–23:00</div>
+        <div class="shift-ref-item" style="border-color:#7C3AED">Night  22:00–6:00</div>
+        <div class="shift-ref-item" style="border-color:#DB2777">Mktg/Sales  10:30–19:30</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section" id="quick-stats-side" style="display:none">
+      <div class="sidebar-label">Quick stats</div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding:0 .25rem">
+        <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border-light)">
+          <span style="color:var(--text2)">Break limit</span>
+          <span style="font-weight:600;color:var(--text)" id="qs-limit">75 min</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border-light)">
+          <span style="color:var(--text2)">Total employees</span>
+          <span style="font-weight:600;color:var(--text)" id="qs-emp">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border-light)">
+          <span style="color:var(--text2)">Violations</span>
+          <span style="font-weight:600;color:var(--red)" id="qs-viol">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0">
+          <span style="color:var(--text2)">Compliance</span>
+          <span style="font-weight:600;color:var(--green)" id="qs-comp">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- ═══ UPLOAD PAGE ═══ -->
+    <div class="page active" id="page-upload">
+      <div class="page-title">Upload attendance file <div class="page-sub">Analysed entirely in your browser — no data leaves your device</div></div>
+      <div class="upload-zone" id="dz" onclick="document.getElementById('fi').click()">
+        <input type="file" id="fi" accept=".xlsx,.xls,.csv" style="display:none">
+        <div class="upload-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3v13M8 7l4-4 4 4" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="upload-title">Drop your Excel or CSV here</div>
+        <div class="upload-sub">Supports .xlsx, .xls and .csv formats<br>System punches (SE) are automatically ignored</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">Expected columns</div>
+          <div class="card-body">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.875rem">
+              <span class="badge b-blue">Emp Code</span>
+              <span class="badge b-blue">Employee Name</span>
+              <span class="badge b-blue">Att. Date</span>
+              <span class="badge b-blue">Status</span>
+              <span class="badge b-blue">Punch Records</span>
+              <span class="badge b-gray">Department (optional)</span>
+            </div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.7">
+              Punch format: <code style="background:var(--border-light);padding:2px 6px;border-radius:5px;font-size:10px">HH:MM:in(AB),HH:MM:out(AB),…</code><br>
+              Break time = total minutes outside (out→in gaps, AB punches only)
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">Shift detection logic</div>
+          <div class="card-body" style="padding:.875rem 1.25rem">
+            <table class="shift-table">
+              <tr><td><span class="shift-swatch" style="background:#2563EB"></span>General</td><td style="color:var(--text2)">9:00 – 18:30</td><td><span class="badge b-gray">Default</span></td></tr>
+              <tr><td><span class="shift-swatch" style="background:#16A34A"></span>Morning</td><td style="color:var(--text2)">6:00 – 14:00</td><td><span class="badge b-green">6:00–7:59</span></td></tr>
+              <tr><td><span class="shift-swatch" style="background:#D97706"></span>Afternoon</td><td style="color:var(--text2)">14:00 – 23:00</td><td><span class="badge b-amber">12:00–15:59</span></td></tr>
+              <tr><td><span class="shift-swatch" style="background:#7C3AED"></span>Night</td><td style="color:var(--text2)">22:00 – 6:00</td><td><span class="badge b-purple">22:00+</span></td></tr>
+              <tr><td><span class="shift-swatch" style="background:#DB2777"></span>Mktg/Sales</td><td style="color:var(--text2)">10:30 – 19:30</td><td><span class="badge b-gray">Dept col</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OVERVIEW PAGE ═══ -->
+    <div class="page" id="page-overview">
+      <div class="page-title">Overview</div>
+      <div class="stat-row" id="ov-stats"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            Top violators
+            <span class="badge b-red" id="viol-count-badge"></span>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th style="width:36px"></th>
+                <th>Employee</th>
+                <th>Shift</th>
+                <th>Days over</th>
+                <th>Total excess</th>
+              </tr></thead>
+              <tbody id="top-viol-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            Perfect attendance — no violations
+            <span class="badge b-green" id="ok-count-badge"></span>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>Employee</th>
+                <th>Shift</th>
+                <th>Days</th>
+                <th>Avg break</th>
+              </tr></thead>
+              <tbody id="ok-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">Monthly summary — all employees avg break per day</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Employee</th>
+              <th>Shift</th>
+              <th>Present days</th>
+              <th>Avg break / day</th>
+              <th>Max break day</th>
+              <th>Days exceeded</th>
+              <th>Total excess</th>
+              <th>Compliance</th>
+            </tr></thead>
+            <tbody id="monthly-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ EMPLOYEES PAGE ═══ -->
+    <div class="page" id="page-employees">
+      <div class="page-title">Employees</div>
+      <div class="filter-bar">
+        <input type="text" id="emp-search" placeholder="Search name or code…" style="width:200px" oninput="renderEmpList()">
+        <select id="emp-shift" onchange="renderEmpList()">
+          <option value="">All shifts</option>
+          <option>General</option><option>Morning</option><option>Afternoon</option><option>Night</option><option>Marketing/Sales</option>
+        </select>
+        <select id="emp-status" onchange="renderEmpList()">
+          <option value="">All employees</option>
+          <option value="exceeded">Exceeded only</option>
+          <option value="ok">Within limit only</option>
+        </select>
+        <select id="emp-date" onchange="renderEmpList()"><option value="">All dates</option></select>
+        <span style="font-size:11px;color:var(--text3);margin-left:4px" id="emp-count-label"></span>
+        <button class="primary" onclick="downloadAllCSV()" style="margin-left:auto;display:flex;align-items:center;gap:6px">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="11" width="12" height="1.5" rx="1" fill="currentColor"/></svg>
+          Download all (CSV)
+        </button>
+      </div>
+      <div id="emp-list"></div>
+    </div>
+
+    <!-- ═══ CHARTS PAGE ═══ -->
+    <div class="page" id="page-charts">
+      <div class="page-title">Charts</div>
+
+      <div class="chart-card" style="margin-bottom:1.25rem">
+        <div class="chart-title">Daily violation trend</div>
+        <div class="chart-sub">Number of employees who exceeded the break limit on each date</div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#DC2626"></span>Employees exceeded</span>
+        </div>
+        <div style="position:relative;height:240px"><canvas id="c2"></canvas></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="chart-card">
+          <div class="chart-title">Average break time per employee (top 20)</div>
+          <div class="chart-sub">Red = exceeded limit · dashed line = limit (75 min)</div>
+          <div style="position:relative;height:300px"><canvas id="c5"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Break violations by shift</div>
+          <div class="chart-sub">Employees who exceeded (coloured) vs stayed within limit (grey) · % above bar = violation rate</div>
+          <div class="chart-legend" id="leg-shift"></div>
+          <div style="position:relative;height:300px"><canvas id="c6"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SETTINGS PAGE ═══ -->
+    <div class="page" id="page-settings">
+      <div class="page-title">Settings</div>
+      <div class="card">
+        <div class="card-head">Break policy</div>
+        <div class="card-body">
+          <div class="settings-row">
+            <div><div class="settings-label">Break limit</div><div class="settings-sub">Maximum allowed outside / break time per day</div></div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="number" id="set-limit" value="75" min="1" max="480" style="width:72px;text-align:center" onchange="applySettings()">
+              <span style="font-size:12px;color:var(--text2)">minutes</span>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div><div class="settings-label">Shift detection</div><div class="settings-sub">Auto-detected from first in-punch time</div></div>
+            <span class="badge b-blue">Auto</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">Shift schedule</div>
+        <div class="card-body">
+          <table class="shift-table">
+            <tr><td><span class="shift-swatch" style="background:#2563EB"></span>General</td><td style="color:var(--text2)">09:00 – 18:30</td><td style="color:var(--text3);font-size:11px">Detected by default</td></tr>
+            <tr><td><span class="shift-swatch" style="background:#16A34A"></span>Morning</td><td style="color:var(--text2)">06:00 – 14:00</td><td style="color:var(--text3);font-size:11px">In-time 06:00–07:59</td></tr>
+            <tr><td><span class="shift-swatch" style="background:#D97706"></span>Afternoon</td><td style="color:var(--text2)">14:00 – 23:00</td><td style="color:var(--text3);font-size:11px">In-time 12:00–15:59</td></tr>
+            <tr><td><span class="shift-swatch" style="background:#7C3AED"></span>Night</td><td style="color:var(--text2)">22:00 – 06:00</td><td style="color:var(--text3);font-size:11px">In-time 20:00+</td></tr>
+            <tr><td><span class="shift-swatch" style="background:#DB2777"></span>Marketing / Sales</td><td style="color:var(--text2)">10:30 – 19:30</td><td style="color:var(--text3);font-size:11px">Department column</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">Data</div>
+        <div class="card-body">
+          <div class="settings-row">
+            <div><div class="settings-label">Clear loaded data</div><div class="settings-sub">Remove file from memory and reset dashboard</div></div>
+            <button class="danger" onclick="clearData()">Clear data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+/* ════════════════════════════════
+   STATE & CONSTANTS
+════════════════════════════════ */
+let LIMIT = 75;
+let records = [];
+let charts = {};
+
+const SHIFTS = ['General','Morning','Afternoon','Night','Marketing/Sales'];
+const SHIFT_COLORS = {General:'#2563EB',Morning:'#16A34A',Afternoon:'#D97706',Night:'#7C3AED','Marketing/Sales':'#DB2777'};
+const SHIFT_BG     = {General:'#EFF6FF',Morning:'#F0FDF4',Afternoon:'#FFFBEB',Night:'#F5F3FF','Marketing/Sales':'#FDF2F8'};
+const SHIFT_TXT    = {General:'#1D4ED8',Morning:'#15803D',Afternoon:'#B45309',Night:'#6D28D9','Marketing/Sales':'#BE185D'};
+const SHIFT_BORDER = {General:'#BFDBFE',Morning:'#BBF7D0',Afternoon:'#FDE68A',Night:'#DDD6FE','Marketing/Sales':'#FBCFE8'};
+
+/* ════════════════════════════════
+   HELPERS
+════════════════════════════════ */
+function toMins(t){if(!t||!t.includes(':'))return null;const p=t.split(':');return +p[0]*60+ +p[1];}
+function hhmm(m){return String(Math.floor(Math.abs(m)/60)).padStart(2,'0')+':'+String(Math.abs(m)%60).padStart(2,'0');}
+function fmtM(m){m=Math.round(m);const h=Math.floor(Math.abs(m)/60),mn=Math.abs(m)%60;return(h?h+'h ':'')+(mn?mn+'m':'')+(h&&!mn?'':'');}
+function avg(arr){return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;}
+function dateToDay(d){const parts=d.split('-');const months={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};try{return new Date(+parts[2],months[parts[1]]-1,+parts[0]).getDay();}catch{return -1;}}
+
+function shiftBadge(s){
+  return `<span class="badge" style="background:${SHIFT_BG[s]||'#F1F5F9'};color:${SHIFT_TXT[s]||'#475569'};border:1px solid ${SHIFT_BORDER[s]||'#E2E8F0'}">${s}</span>`;
+}
+
+/* ════════════════════════════════
+   SHIFT DETECTION
+════════════════════════════════ */
+function detectShift(inTimeTxt,dept){
+  if(dept&&/market|sales/i.test(dept))return'Marketing/Sales';
+  const m=toMins(inTimeTxt);
+  if(m===null)return'General';
+  if(m>=360&&m<720)return'Morning';
+  if(m>=720&&m<960)return'Afternoon';
+  if(m>=960&&m<1200)return'Afternoon';
+  if(m>=1200)return'Night';
+  if(m<360)return'Night';
+  return'General';
+}
+
+/* ════════════════════════════════
+   PUNCH PARSER
+════════════════════════════════ */
+function parsePunches(punchStr){
+  if(!punchStr)return{workMins:0,breakMins:0,firstIn:'',lastOut:''};
+  const tokens=punchStr.split(',').map(s=>s.trim());
+  const evts=[];
+  for(const t of tokens){
+    const m=t.match(/^(\d{1,2}):(\d{2}):(in|out)\(AB\)/i);
+    if(m)evts.push({time:+m[1]*60+ +m[2],dir:m[3].toLowerCase()});
+  }
+  if(!evts.length)return{workMins:0,breakMins:0,firstIn:'',lastOut:''};
+  let workMins=0,breakMins=0,lastIn=null,lastOut=null,firstIn='',lastOutStr='';
+  for(const e of evts){
+    if(e.dir==='in'){
+      if(!firstIn)firstIn=hhmm(e.time);
+      if(lastOut!==null){const gap=e.time-lastOut;if(gap>0&&gap<600)breakMins+=gap;lastOut=null;}
+      lastIn=e.time;
+    } else {
+      lastOutStr=hhmm(e.time);
+      if(lastIn!==null){const gap=e.time-lastIn;if(gap>0&&gap<600)workMins+=gap;lastIn=null;}
+      lastOut=e.time;
+    }
+  }
+  return{workMins,breakMins,firstIn,lastOut:lastOutStr};
+}
+
+/* ════════════════════════════════
+   FILE PROCESSOR
+════════════════════════════════ */
+function processWB(wb){
+  const out=[];
+  for(const sn of wb.SheetNames){
+    const ws=wb.Sheets[sn];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    let code='',name='',dept='';
+    for(const row of rows){
+      const c=row.map(x=>String(x).trim());
+      for(let i=0;i<c.length-1;i++){
+        if(/^emp[\s.]*code$/i.test(c[i])&&c[i+1])code=c[i+1];
+        if(/employee[\s]*name/i.test(c[i])){for(let j=i+1;j<Math.min(i+6,c.length);j++){if(c[j]){name=c[j];break;}}}
+        if(/department/i.test(c[i])&&c[i+1])dept=c[i+1];
+      }
+      const dateCell=c.find(x=>/^\d{2}-[A-Za-z]{3}-\d{4}$/.test(x));
+      if(!dateCell)continue;
+      const statusCell=c.find(x=>/present|absent|weeklyoff/i.test(x))||'';
+      if(!/present/i.test(statusCell))continue;
+      const inTimeCell=c.find((x,idx)=>/^\d{1,2}:\d{2}$/.test(x)&&x!=='00:00'&&idx>1)||'';
+      const punchCell=c.slice().reverse().find(x=>/:in\(AB\)|:out\(AB\)/i.test(x))||'';
+      if(!punchCell)continue;
+      const{workMins,breakMins,firstIn,lastOut}=parsePunches(punchCell);
+      const shift=detectShift(inTimeCell||firstIn,dept);
+      const exceeded=breakMins>LIMIT;
+      out.push({code,name:name||code,dept,date:dateCell,inTime:firstIn||inTimeCell,outTime:lastOut,workMins,breakMins,exceeded,excess:Math.max(0,breakMins-LIMIT),shift,punches:punchCell});
+    }
+  }
+  return out;
+}
+
+/* ════════════════════════════════
+   GROUP BY EMPLOYEE
+════════════════════════════════ */
+function groupByEmp(recs){
+  const m={};
+  for(const r of recs){
+    const k=r.code+'__'+r.name;
+    if(!m[k])m[k]={code:r.code,name:r.name,dept:r.dept,shift:r.shift,days:[]};
+    m[k].days.push(r);
+  }
+  return Object.values(m).sort((a,b)=>b.days.filter(d=>d.exceeded).length-a.days.filter(d=>d.exceeded).length||a.name.localeCompare(b.name));
+}
+
+/* ════════════════════════════════
+   NAVIGATION
+════════════════════════════════ */
+function goto(pg,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+pg).classList.add('active');
+  if(el)el.classList.add('active');
+  if(pg==='overview')renderOverview();
+  if(pg==='employees')renderEmpList();
+  if(pg==='charts')renderCharts();
+}
+
+/* ════════════════════════════════
+   SETTINGS
+════════════════════════════════ */
+function applySettings(){
+  LIMIT=parseInt(document.getElementById('set-limit').value)||75;
+  document.getElementById('qs-limit').textContent=LIMIT+' min';
+  records.forEach(r=>{r.exceeded=r.breakMins>LIMIT;r.excess=Math.max(0,r.breakMins-LIMIT);});
+}
+function clearData(){
+  records=[];
+  document.getElementById('nb-file').textContent='No file loaded';
+  document.getElementById('nb-badge').style.display='none';
+  document.getElementById('side-vcount').style.display='none';
+  document.getElementById('shift-sidebar').style.display='none';
+  document.getElementById('quick-stats-side').style.display='none';
+  goto('upload',document.querySelector('.nav-item'));
+}
+
+/* ════════════════════════════════
+   AFTER LOAD
+════════════════════════════════ */
+function afterLoad(filename){
+  const viol=records.filter(r=>r.exceeded).length;
+  const groups=groupByEmp(records);
+  const empViol=groups.filter(g=>g.days.some(d=>d.exceeded)).length;
+  const complPct=records.length?Math.round((records.length-viol)/records.length*100):0;
+  document.getElementById('nb-file').textContent=filename;
+  const badge=document.getElementById('nb-badge');
+  badge.textContent=viol+' violations';badge.style.display='';
+  document.getElementById('side-vcount').textContent=empViol;
+  document.getElementById('side-vcount').style.display='';
+  document.getElementById('shift-sidebar').style.display='';
+  document.getElementById('quick-stats-side').style.display='';
+  document.getElementById('qs-limit').textContent=LIMIT+' min';
+  document.getElementById('qs-emp').textContent=groups.length;
+  document.getElementById('qs-viol').textContent=empViol;
+  document.getElementById('qs-comp').textContent=complPct+'%';
+  const dates=[...new Set(records.map(r=>r.date))].sort();
+  const sel=document.getElementById('emp-date');
+  sel.innerHTML='<option value="">All dates</option>'+dates.map(d=>`<option>${d}</option>`).join('');
+  goto('overview',document.querySelectorAll('.nav-item')[1]);
+}
+
+/* ════════════════════════════════
+   OVERVIEW
+════════════════════════════════ */
+function renderOverview(){
+  const groups=groupByEmp(records);
+  const total=groups.length;
+  const violated=groups.filter(g=>g.days.some(d=>d.exceeded)).length;
+  const presdays=records.length;
+  const excdays=records.filter(r=>r.exceeded).length;
+
+  // Unique working dates in the data (excludes weekoffs since we only parse Present rows)
+  const uniqueDates=new Set(records.map(r=>r.date));
+  const workingDays=uniqueDates.size;
+
+  // Compliance = % of employees who had zero violations
+  const compliantEmps=groups.filter(g=>g.days.every(d=>!d.exceeded)).length;
+  const complPct=total?Math.round(compliantEmps/total*100):0;
+
+  const avgBreak=presdays?Math.round(avg(records.map(r=>r.breakMins))):0;
+
+  const totalExcessMins=records.reduce((s,r)=>s+r.excess,0);
+  const avgExcessPerViolator=violated?Math.round(records.filter(r=>r.exceeded).reduce((s,r)=>s+r.excess,0)/violated):0;
+
+  document.getElementById('ov-stats').innerHTML=`
+    <div class="stat-card">
+      <div class="sc-icon" style="background:var(--accent-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#2563EB" stroke-width="1.8"/><path d="M10 6v4l2.5 2.5" stroke="#2563EB" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <div class="sc-lbl">Total employees</div>
+      <div class="sc-val">${total}</div>
+      <div class="sc-sub">Across all shifts</div>
+      <div class="sc-bar" style="background:var(--accent-mid)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-icon" style="background:var(--red-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 3l7 14H3L10 3z" stroke="#DC2626" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 9v4M10 14.5v.5" stroke="#DC2626" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <div class="sc-lbl">Exceeded break limit</div>
+      <div class="sc-val" style="color:var(--red)">${violated} <span style="font-size:16px;color:var(--text3)">/ ${total}</span></div>
+      <div class="sc-sub">${complPct}% of staff within limit</div>
+      <div class="sc-bar" style="background:var(--red-mid)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-icon" style="background:var(--green-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sc-lbl">Compliance rate</div>
+      <div class="sc-val" style="color:var(--green)">${complPct}%</div>
+      <div class="sc-sub">${compliantEmps} of ${total} within limit</div>
+      <div class="sc-bar" style="background:var(--green-mid)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-icon" style="background:var(--green-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sc-lbl">Avg break per employee</div>
+      <div class="sc-val" style="color:${avgBreak>LIMIT?'var(--red)':'var(--green)'}">${fmtM(avgBreak)}</div>
+      <div class="sc-sub">Limit is ${LIMIT} min</div>
+      <div class="sc-bar" style="background:var(--green-mid)"></div>
+    </div>`;
+
+  // Top violators
+  const top=groups.filter(g=>g.days.some(d=>d.exceeded)).slice(0,10);
+  document.getElementById('viol-count-badge').textContent=violated+' employees';
+  document.getElementById('top-viol-body').innerHTML=top.length?top.map((g,i)=>{
+    const excD=g.days.filter(d=>d.exceeded).length;
+    const totalExc=g.days.reduce((s,d)=>s+d.excess,0);
+    const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
+    const pct=Math.min(100,totalExc/300*100).toFixed(0);
+    const rankCls=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank';
+    return`<tr>
+      <td><span class="${rankCls}">${i+1}</span></td>
+      <td><span style="font-weight:600">${g.name}</span><br><span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+      <td>${shiftBadge(g.shift)}</td>
+      <td>${excD}/${g.days.length} days</td>
+      <td>+${fmtM(totalExc)}<span class="pbar-wrap"><span class="pbar" style="width:${pct}%;background:var(--red)"></span></span></td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="5" class="empty">No violations found</td></tr>';
+
+  // Perfect employees
+  const okGroups=groups.filter(g=>g.days.length>0&&g.days.every(d=>!d.exceeded));
+  document.getElementById('ok-count-badge').textContent=okGroups.length+' employees';
+  document.getElementById('ok-body').innerHTML=okGroups.length?okGroups.slice(0,10).map(g=>{
+    const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
+    return`<tr class="ok-row">
+      <td><span style="font-weight:600">${g.name}</span><br><span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+      <td>${shiftBadge(g.shift)}</td>
+      <td>${g.days.length}</td>
+      <td><span class="badge b-green">${fmtM(avgB)}</span></td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="4" class="empty">—</td></tr>';
+
+  // Monthly summary table
+  document.getElementById('monthly-body').innerHTML=groups.map(g=>{
+    const excD=g.days.filter(d=>d.exceeded).length;
+    const totalExc=g.days.reduce((s,d)=>s+d.excess,0);
+    const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
+    const maxB=Math.max(...g.days.map(d=>d.breakMins));
+    const maxDay=g.days.find(d=>d.breakMins===maxB);
+    const compPct=g.days.length?Math.round((g.days.length-excD)/g.days.length*100):0;
+    const barColor=compPct>=80?'var(--green)':compPct>=50?'var(--amber)':'var(--red)';
+    return`<tr class="${excD>0?'exceeded-row':'ok-row'}">
+      <td><span style="font-weight:600">${g.name}</span> <span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+      <td>${shiftBadge(g.shift)}</td>
+      <td>${g.days.length}</td>
+      <td><span class="badge ${avgB>LIMIT?'b-red':avgB>LIMIT*0.8?'b-amber':'b-green'}">${fmtM(avgB)}</span></td>
+      <td>${fmtM(maxB)}<br><span style="font-size:10px;color:var(--text3)">${maxDay?maxDay.date:''}</span></td>
+      <td>${excD>0?`<span style="color:var(--red);font-weight:600">${excD}</span>`:`<span style="color:var(--green)">0</span>`}</td>
+      <td>${excD>0?`<span style="color:var(--red);font-weight:600">+${fmtM(totalExc)}</span>`:'<span style="color:var(--text3)">—</span>'}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:60px">
+            <div class="pbar-lg"><div class="pbar-lg-fill" style="width:${compPct}%;background:${barColor}"></div></div>
+          </div>
+          <span style="font-size:11px;font-weight:600;color:${barColor}">${compPct}%</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ════════════════════════════════
+   ANALYSIS
+════════════════════════════════ */
+/* ════════════════════════════════
+   EMPLOYEES
+════════════════════════════════ */
+function renderEmpList(){
+  const q=document.getElementById('emp-search').value.toLowerCase();
+  const sf=document.getElementById('emp-shift').value;
+  const st=document.getElementById('emp-status').value;
+  const df=document.getElementById('emp-date').value;
+  let groups=groupByEmp(records);
+  if(q)groups=groups.filter(g=>g.name.toLowerCase().includes(q)||g.code.toLowerCase().includes(q));
+  if(sf)groups=groups.filter(g=>g.shift===sf);
+  if(df)groups=groups.map(g=>({...g,days:g.days.filter(d=>d.date===df)})).filter(g=>g.days.length);
+  if(st==='exceeded')groups=groups.filter(g=>g.days.some(d=>d.exceeded));
+  if(st==='ok')groups=groups.filter(g=>g.days.every(d=>!d.exceeded));
+  const el=document.getElementById('emp-list');
+  document.getElementById('emp-count-label').textContent=`${groups.length} employee${groups.length!==1?'s':''}`;
+  if(!groups.length){el.innerHTML='<div class="empty">No employees match the filters</div>';return;}
+
+  el.innerHTML=groups.map((g,i)=>{
+    const excD=g.days.filter(d=>d.exceeded).length;
+    const totalExc=g.days.reduce((s,d)=>s+d.excess,0);
+    const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
+    const badge=excD>0
+      ?`<span class="badge b-red">${excD} day${excD>1?'s':''} exceeded</span>`
+      :`<span class="badge b-green">No violations</span>`;
+    const initials=(g.name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+
+    const dayRows=g.days.map(d=>{
+      const cls=d.exceeded?'exceeded-row':'ok-row';
+      const pct=Math.min(100,d.breakMins/(LIMIT*2)*100).toFixed(0);
+      const excessCell=d.exceeded?`<span style="color:var(--red);font-weight:600">+${fmtM(d.excess)}</span>`:`<span style="color:var(--text3)">—</span>`;
+      const statusCell=d.exceeded?`<span class="badge b-red">Exceeded</span>`:`<span class="badge b-green">OK</span>`;
+      return`<tr class="${cls}">
+        <td style="font-size:11px">${d.date}</td>
+        <td>${d.inTime||'—'}</td>
+        <td>${d.outTime||'—'}</td>
+        <td>${shiftBadge(d.shift)}</td>
+        <td>${fmtM(d.workMins)}</td>
+        <td>${fmtM(d.breakMins)}<span class="pbar-wrap"><span class="pbar" style="width:${pct}%;background:${d.exceeded?'var(--red)':'var(--green)'}"></span></span></td>
+        <td>${excessCell}</td>
+        <td>${statusCell}</td>
+      </tr>`;
+    }).join('');
+
+    return`<div class="emp-card">
+      <div class="emp-hdr" id="eh${i}" onclick="toggleEmp(${i})">
+        <div class="emp-left">
+          <div class="emp-avatar" style="background:${SHIFT_BG[g.shift]||'#F1F5F9'};color:${SHIFT_TXT[g.shift]||'#475569'};border-color:${SHIFT_BORDER[g.shift]||'#E2E8F0'}">${initials}</div>
+          <div>
+            <div class="emp-name">${g.name} <span style="font-size:10px;color:var(--text3);font-weight:400">#${g.code}</span></div>
+            <div class="emp-meta">
+              <span>${g.days.length} days present</span>
+              <span style="color:var(--border)">·</span>
+              ${shiftBadge(g.shift)}
+              <span style="color:var(--border)">·</span>
+              <span>Avg break: <strong style="color:${avgB>LIMIT?'var(--red)':'var(--text)'}">${fmtM(avgB)}</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="emp-right">
+          ${badge}
+          <button onclick="event.stopPropagation();downloadEmpCSV('${g.code}','${g.name.replace(/'/g,"\\'")}',${i})" style="font-size:11px;padding:4px 10px;display:flex;align-items:center;gap:4px;border-color:var(--border)" title="Download CSV for this employee">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="11" width="12" height="1.5" rx="1" fill="currentColor"/></svg>
+            CSV
+          </button>
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="emp-detail" id="ed${i}">
+        <div class="emp-detail-inner">
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem">
+            <div class="mini-stat"><div class="ms-val">${g.days.length}</div><div class="ms-lbl">Days present</div></div>
+            <div class="mini-stat"><div class="ms-val" style="color:${avgB>LIMIT?'var(--red)':'var(--green)'}">${fmtM(avgB)}</div><div class="ms-lbl">Avg break</div></div>
+            <div class="mini-stat"><div class="ms-val" style="color:${excD>0?'var(--red)':'var(--green)'}">${excD}</div><div class="ms-lbl">Days exceeded</div></div>
+            <div class="mini-stat"><div class="ms-val" style="color:${excD>0?'var(--red)':'var(--text3)'}">${excD>0?'+'+fmtM(totalExc):'—'}</div><div class="ms-lbl">Total excess</div></div>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>Date</th><th>In time</th><th>Out time</th><th>Shift</th>
+                <th>Work duration</th><th>Break time</th><th>Exceeded by</th><th>Status</th>
+              </tr></thead>
+              <tbody>${dayRows}</tbody>
+            </table>
+          </div>
+          <div style="font-size:10px;color:var(--text3);margin-top:.5rem">Break limit: ${LIMIT} min · System punches (SE) excluded · Work duration = total time inside</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleEmp(i){
+  const d=document.getElementById('ed'+i),h=document.getElementById('eh'+i);
+  const open=d.style.display==='block';
+  d.style.display=open?'none':'block';
+  h.classList.toggle('open',!open);
+}
+
+/* ════════════════════════════════
+   CSV EXPORT
+════════════════════════════════ */
+function buildCSVRows(days, empCode, empName){
+  const header=['Emp Code','Employee Name','Date','In Time','Out Time','Shift','Work Duration (min)','Break Time (min)','Break Time','Exceeded Limit','Exceeded By (min)','Exceeded By','Status'];
+  const rows=days.map(d=>[
+    empCode,
+    empName,
+    d.date,
+    d.inTime||'',
+    d.outTime||'',
+    d.shift,
+    Math.round(d.workMins),
+    Math.round(d.breakMins),
+    fmtM(d.breakMins),
+    d.exceeded?'YES':'NO',
+    d.exceeded?Math.round(d.excess):'',
+    d.exceeded?'+'+fmtM(d.excess):'',
+    d.exceeded?'Exceeded':'OK'
+  ]);
+  return [header,...rows];
+}
+
+function rowsToCSV(rows){
+  return rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+}
+
+function downloadCSV(csv, filename){
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadEmpCSV(code, name, idx){
+  const groups=groupByEmp(records);
+  const g=groups.find(g=>g.code===code&&g.name===name);
+  if(!g)return;
+  const rows=buildCSVRows(g.days,g.code,g.name);
+  downloadCSV(rowsToCSV(rows),`break_report_${(name||code).replace(/[^a-z0-9]/gi,'_')}.csv`);
+}
+
+function downloadAllCSV(){
+  const q=document.getElementById('emp-search').value.toLowerCase();
+  const sf=document.getElementById('emp-shift').value;
+  const st=document.getElementById('emp-status').value;
+  const df=document.getElementById('emp-date').value;
+  let groups=groupByEmp(records);
+  if(q)groups=groups.filter(g=>g.name.toLowerCase().includes(q)||g.code.toLowerCase().includes(q));
+  if(sf)groups=groups.filter(g=>g.shift===sf);
+  if(df)groups=groups.map(g=>({...g,days:g.days.filter(d=>d.date===df)})).filter(g=>g.days.length);
+  if(st==='exceeded')groups=groups.filter(g=>g.days.some(d=>d.exceeded));
+  if(st==='ok')groups=groups.filter(g=>g.days.every(d=>!d.exceeded));
+  if(!groups.length){alert('No data to export.');return;}
+  const header=['Emp Code','Employee Name','Date','In Time','Out Time','Shift','Work Duration (min)','Break Time (min)','Break Time','Exceeded Limit','Exceeded By (min)','Exceeded By','Status'];
+  const allRows=[header];
+  for(const g of groups){
+    const rows=buildCSVRows(g.days,g.code,g.name);
+    allRows.push(...rows.slice(1));
+  }
+  downloadCSV(rowsToCSV(allRows),'break_report_all_employees.csv');
+}
+
+/* ════════════════════════════════
+   CHARTS
+════════════════════════════════ */
+function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+
+function renderCharts(){
+  destroyChart('c2');destroyChart('c5');destroyChart('c6');
+
+  /* ── C2: Daily trend — employees exceeded per date (red bars only) ── */
+  const dateMap={};
+  records.forEach(r=>{
+    if(!dateMap[r.date])dateMap[r.date]=0;
+    if(r.exceeded)dateMap[r.date]++;
+  });
+  const sortedDates=Object.keys(dateMap).sort();
+  const shortDates=sortedDates.map(d=>d.replace(/-\d{4}$/,''));
+  const excCounts=sortedDates.map(d=>dateMap[d]);
+  // gradient-style: darker red for higher counts
+  const maxExc=Math.max(...excCounts,1);
+  const barColorsC2=excCounts.map(v=>{
+    const intensity=Math.round(80+v/maxExc*100);
+    return v===0?'#E2E8F0':'#DC2626';
+  });
+  charts.c2=new Chart(document.getElementById('c2'),{
+    type:'bar',
+    data:{
+      labels:shortDates,
+      datasets:[{
+        label:'Employees exceeded',
+        data:excCounts,
+        backgroundColor:barColorsC2,
+        borderRadius:4,
+        borderSkipped:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} employee${ctx.parsed.y!==1?'s':''} exceeded`}}
+      },
+      scales:{
+        x:{ticks:{autoSkip:true,maxRotation:45,font:{size:9}},grid:{display:false}},
+        y:{ticks:{font:{size:10},stepSize:1},beginAtZero:true,title:{display:true,text:'Employees exceeded',font:{size:10}}}
+      }
+    }
+  });
+
+  /* ── C5: Avg break per employee top 20 ── */
+  const groups=groupByEmp(records);
+  const top20=groups.slice(0,20).sort((a,b)=>avg(b.days.map(d=>d.breakMins))-avg(a.days.map(d=>d.breakMins)));
+  const avgBreaks=top20.map(g=>Math.round(avg(g.days.map(d=>d.breakMins))));
+  const shiftColorBars=top20.map(g=>avgBreaks[top20.indexOf(g)]>LIMIT
+    ? '#DC2626'
+    : (SHIFT_COLORS[g.shift]||'#94A3B8')+'99'
+  );
+  charts.c5=new Chart(document.getElementById('c5'),{
+    type:'bar',
+    data:{
+      labels:top20.map(g=>g.name.split(' ')[0]),
+      datasets:[{
+        label:'Avg break (min)',
+        data:avgBreaks,
+        backgroundColor:shiftColorBars,
+        borderRadius:5,
+        borderSkipped:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          label:ctx=>`${ctx.parsed.y} min avg`,
+          afterLabel:ctx=>{const g=top20[ctx.dataIndex];return`Shift: ${g.shift}`;}
+        }}
+      },
+      scales:{
+        x:{ticks:{font:{size:10},maxRotation:45},grid:{display:false}},
+        y:{
+          ticks:{font:{size:10}},beginAtZero:true,
+          title:{display:true,text:'Minutes',font:{size:10}},
+          afterDataLimits(scale){scale.max=Math.max(scale.max,LIMIT+20);},
+        }
+      }
+    },
+    plugins:[{
+      id:'limitLine',
+      afterDraw(chart){
+        const{ctx,scales:{y,x}}=chart;
+        const yPos=y.getPixelForValue(LIMIT);
+        ctx.save();
+        ctx.strokeStyle='#DC2626';
+        ctx.lineWidth=1.5;
+        ctx.setLineDash([6,4]);
+        ctx.beginPath();
+        ctx.moveTo(x.left,yPos);
+        ctx.lineTo(x.right,yPos);
+        ctx.stroke();
+        ctx.fillStyle='#DC2626';
+        ctx.font='bold 10px sans-serif';
+        ctx.fillText(`Limit ${LIMIT}m`,x.right+4,yPos+4);
+        ctx.restore();
+      }
+    }]
+  });
+
+  /* ── C6: Violations by shift — grouped bars (exceeded vs ok) colored per shift ── */
+  const shiftViol={},shiftTotal={};
+  SHIFTS.forEach(s=>{shiftViol[s]=0;shiftTotal[s]=0;});
+  records.forEach(r=>{
+    shiftTotal[r.shift]=(shiftTotal[r.shift]||0)+1;
+    if(r.exceeded)shiftViol[r.shift]=(shiftViol[r.shift]||0)+1;
+  });
+  const activeShifts=SHIFTS.filter(s=>shiftTotal[s]>0);
+
+  // Build legend
+  document.getElementById('leg-shift').innerHTML=`
+    <span><span class="legend-dot" style="background:#DC2626"></span>Exceeded</span>
+    <span><span class="legend-dot" style="background:#CBD5E1"></span>Within limit</span>`;
+
+  // Count unique employees per shift who exceeded vs stayed within
+  const shiftEmpViol={}, shiftEmpOk={};
+  SHIFTS.forEach(s=>{shiftEmpViol[s]=new Set();shiftEmpOk[s]=new Set();});
+  const groups2=groupByEmp(records);
+  groups2.forEach(g=>{
+    const anyExc=g.days.some(d=>d.exceeded);
+    if(anyExc) shiftEmpViol[g.shift].add(g.code+'__'+g.name);
+    else shiftEmpOk[g.shift].add(g.code+'__'+g.name);
+  });
+
+  const exceededVals=activeShifts.map(s=>shiftEmpViol[s].size);
+  const okVals=activeShifts.map(s=>shiftEmpOk[s].size);
+  const totalPerShift=activeShifts.map(s=>shiftEmpViol[s].size+shiftEmpOk[s].size);
+  const pctVals=activeShifts.map((s,i)=>totalPerShift[i]?Math.round(shiftEmpViol[s].size/totalPerShift[i]*100):0);
+
+  charts.c6=new Chart(document.getElementById('c6'),{
+    type:'bar',
+    data:{
+      labels:activeShifts,
+      datasets:[
+        {
+          label:'Exceeded',
+          data:exceededVals,
+          backgroundColor:activeShifts.map(s=>SHIFT_COLORS[s]||'#888'),
+          borderRadius:5,
+          borderSkipped:false
+        },
+        {
+          label:'Within limit',
+          data:okVals,
+          backgroundColor:'#CBD5E1',
+          borderRadius:5,
+          borderSkipped:false
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            title:ctx=>`${ctx[0].label}`,
+            label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y} employees`
+          }
+        }
+      },
+      scales:{
+        x:{ticks:{font:{size:11}},grid:{display:false}},
+        y:{
+          ticks:{font:{size:10},stepSize:1},
+          beginAtZero:true,
+          title:{display:true,text:'Employees',font:{size:10}}
+        }
+      }
+    },
+    plugins:[{
+      id:'pctLabels',
+      afterDatasetsDraw(chart){
+        const{ctx}=chart;
+        const meta=chart.getDatasetMeta(0);
+        meta.data.forEach((bar,i)=>{
+          const val=exceededVals[i];
+          if(!val)return;
+          const pct=pctVals[i];
+          ctx.save();
+          ctx.fillStyle=SHIFT_COLORS[activeShifts[i]]||'#555';
+          ctx.font='bold 11px sans-serif';
+          ctx.textAlign='center';
+          ctx.textBaseline='bottom';
+          ctx.fillText(`${pct}%`,bar.x,bar.y-4);
+          ctx.restore();
+        });
+      }
+    }]
+  });
+}
+
+/* ════════════════════════════════
+   FILE UPLOAD
+════════════════════════════════ */
+document.getElementById('fi').addEventListener('change',function(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=function(ev){
+    const wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+    records=processWB(wb);
+    if(!records.length){alert('No Present records with punch data found. Please check the file format.');return;}
+    afterLoad(f.name);
+  };
+  r.readAsArrayBuffer(f);
+});
+const dz=document.getElementById('dz');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='var(--accent)';dz.style.background='var(--accent-light)';});
+dz.addEventListener('dragleave',()=>{dz.style.borderColor='';dz.style.background='';});
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.style.borderColor='';dz.style.background='';
+  const f=e.dataTransfer.files[0];
+  if(f){document.getElementById('fi').files=e.dataTransfer.files;document.getElementById('fi').dispatchEvent(new Event('change'));}
+});
+</script>
+</body>
+</html>
