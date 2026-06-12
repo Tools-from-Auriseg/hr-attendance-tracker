@@ -26,19 +26,15 @@
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;font-size:13px;color:var(--text);background:var(--bg);min-height:100vh}
 
-/* NAVBAR */
 .navbar{height:var(--nav-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:var(--sh)}
 .brand{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;letter-spacing:-0.3px}
 .brand-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
-.brand-icon svg{color:#fff}
 .nav-right{display:flex;align-items:center;gap:10px}
 .nb-file{font-size:11px;color:var(--text3);background:var(--border-light);padding:4px 10px;border-radius:20px}
 .nb-badge{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:600;background:var(--red-light);color:var(--red);display:none;border:1px solid var(--red-mid)}
 
-/* LAYOUT */
 .layout{display:flex;min-height:calc(100vh - var(--nav-h))}
 
-/* SIDEBAR */
 .sidebar{width:var(--side-w);background:var(--surface);border-right:1px solid var(--border);padding:1.25rem 0;flex-shrink:0;position:sticky;top:var(--nav-h);height:calc(100vh - var(--nav-h));overflow-y:auto}
 .sidebar-section{padding:0 .875rem;margin-bottom:1.75rem}
 .sidebar-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:0 .625rem;margin-bottom:.5rem}
@@ -51,13 +47,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
 .shift-ref{display:flex;flex-direction:column;gap:5px;padding:0 .25rem}
 .shift-ref-item{font-size:11px;color:var(--text2);padding:4px 10px;border-left:2.5px solid;border-radius:0 4px 4px 0;background:var(--border-light)}
 
-/* MAIN */
 .main{flex:1;padding:1.5rem;min-width:0;max-width:calc(100vw - var(--side-w))}
 .page{display:none}.page.active{display:block}
 .page-title{font-size:20px;font-weight:700;margin-bottom:1.5rem;color:var(--text);letter-spacing:-0.3px}
 .page-sub{font-size:13px;color:var(--text2);margin-top:4px;font-weight:400}
 
-/* STAT CARDS ROW */
 .stat-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:1.5rem}
 @media(max-width:800px){.stat-row{grid-template-columns:repeat(2,1fr)}}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem;box-shadow:var(--sh);transition:box-shadow .2s;position:relative;overflow:hidden}
@@ -68,26 +62,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
 .stat-card .sc-sub{font-size:11px;color:var(--text3);margin-top:6px}
 .stat-card .sc-bar{position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0}
 
-/* CARDS */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:1.25rem;box-shadow:var(--sh)}
 .card-head{padding:.875rem 1.25rem;border-bottom:1px solid var(--border-light);font-weight:600;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:var(--text)}
 .card-body{padding:1.25rem}
-.card-sub{font-size:11px;color:var(--text3);font-weight:400;margin-top:1px}
 
-/* GRID LAYOUTS */
 .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:1.25rem}
 .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:1.25rem}
 @media(max-width:750px){.grid-2,.grid-3{grid-template-columns:1fr}}
 
-/* UPLOAD */
-.upload-zone{border:2px dashed var(--border);border-radius:var(--rxl);padding:3.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;background:var(--surface)}
-.upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
-.upload-zone:hover .upload-title{color:var(--accent)}
-.upload-icon{width:56px;height:56px;margin:0 auto 16px;background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:16px;display:flex;align-items:center;justify-content:center}
-.upload-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;transition:color .2s}
-.upload-sub{font-size:12px;color:var(--text2);line-height:1.6}
+/* TWO-FILE UPLOAD */
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.25rem}
+@media(max-width:700px){.upload-grid{grid-template-columns:1fr}}
+.upload-zone{border:2px dashed var(--border);border-radius:var(--rxl);padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:var(--accent-light)}
+.upload-zone.loaded{border-color:var(--green);background:var(--green-light);border-style:solid}
+.upload-zone.loaded .upload-title{color:var(--green)}
+.upload-icon{width:48px;height:48px;margin:0 auto 12px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.upload-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;transition:color .2s}
+.upload-sub{font-size:11px;color:var(--text2);line-height:1.6}
+.upload-tag{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
 
-/* TABLES */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{text-align:left;font-weight:600;color:var(--text2);padding:9px 12px;border-bottom:1px solid var(--border);background:var(--border-light);white-space:nowrap;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
@@ -100,7 +94,6 @@ tbody tr:hover td{background:var(--border-light)}
 .ok-row td{background:#F0FDF4}
 .ok-row:hover td{background:#DCFCE7}
 
-/* BADGES */
 .badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap;display:inline-block;letter-spacing:.02em}
 .b-red{background:var(--red-light);color:var(--red);border:1px solid var(--red-mid)}
 .b-green{background:var(--green-light);color:var(--green);border:1px solid var(--green-mid)}
@@ -108,8 +101,9 @@ tbody tr:hover td{background:var(--border-light)}
 .b-blue{background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-mid)}
 .b-purple{background:var(--purple-light);color:var(--purple);border:1px solid var(--purple-mid)}
 .b-gray{background:var(--border-light);color:var(--text2);border:1px solid var(--border)}
+.b-teal{background:var(--teal-light);color:var(--teal);border:1px solid #99F6E4}
+.b-pink{background:#FDF2F8;color:#BE185D;border:1px solid #FBCFE8}
 
-/* FILTERS */
 .filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:1.25rem}
 input[type=text],input[type=number],select{font-size:12px;padding:7px 11px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;font-weight:500}
 input[type=text]:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
@@ -120,7 +114,6 @@ button.primary:hover{background:var(--accent-dark)}
 button.danger{color:var(--red);border-color:var(--red-mid);background:var(--red-light)}
 button.danger:hover{background:var(--red-mid)}
 
-/* EMP ACCORDION */
 .emp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:10px;box-shadow:var(--sh);transition:box-shadow .2s}
 .emp-card:hover{box-shadow:var(--sh-md)}
 .emp-hdr{padding:.875rem 1.25rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px;transition:background .12s}
@@ -128,25 +121,20 @@ button.danger:hover{background:var(--red-mid)}
 .emp-left{display:flex;align-items:center;gap:12px}
 .emp-avatar{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;border:1.5px solid}
 .emp-name{font-weight:600;font-size:13px;color:var(--text)}
-.emp-meta{font-size:11px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px}
+.emp-meta{font-size:11px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .emp-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .chev{width:16px;height:16px;color:var(--text3);transition:transform .2s;flex-shrink:0}
 .open .chev{transform:rotate(180deg)}
 .emp-detail{display:none;border-top:1px solid var(--border-light)}
 .emp-detail-inner{padding:.875rem 1.25rem}
 
-/* ANALYSIS CARDS (mini) */
 .mini-stat{background:var(--border-light);border-radius:var(--r);padding:.75rem 1rem;text-align:center}
 .mini-stat .ms-val{font-size:18px;font-weight:700;color:var(--text)}
 .mini-stat .ms-lbl{font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 
-/* PROGRESS */
 .pbar-wrap{display:inline-block;vertical-align:middle;width:60px;height:5px;background:var(--border);border-radius:5px;overflow:hidden;margin-left:6px}
 .pbar{height:5px;border-radius:5px;transition:width .3s}
-.pbar-lg{height:8px;border-radius:8px;background:var(--border);overflow:hidden;margin-top:6px}
-.pbar-lg-fill{height:8px;border-radius:8px;transition:width .5s}
 
-/* CHARTS */
 .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem;box-shadow:var(--sh)}
 .chart-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
 .chart-sub{font-size:11px;color:var(--text3);margin-bottom:.875rem}
@@ -154,11 +142,6 @@ button.danger:hover{background:var(--red-mid)}
 .chart-legend span{display:flex;align-items:center;gap:5px}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 
-/* INSIGHT CARDS */
-.insight-card{border-radius:var(--rl);padding:1rem 1.25rem;border:1px solid;display:flex;align-items:flex-start;gap:12px;margin-bottom:.75rem}
-.insight-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
-
-/* SETTINGS */
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--border-light)}
 .settings-row:last-child{border-bottom:none}
 .settings-label{font-weight:600;font-size:13px;color:var(--text)}
@@ -169,21 +152,26 @@ button.danger:hover{background:var(--red-mid)}
 .shift-swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:middle}
 .empty{text-align:center;padding:3rem 1rem;color:var(--text2);font-size:13px}
 
-/* TAB SWITCHER */
 .tab-row{display:flex;gap:4px;background:var(--border-light);padding:4px;border-radius:10px;margin-bottom:1.25rem;width:fit-content}
 .tab-btn{padding:6px 16px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all .15s}
 .tab-btn.active{background:var(--surface);color:var(--text);font-weight:600;box-shadow:var(--sh)}
 
-/* RANK BADGE */
 .rank{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;font-size:10px;font-weight:700;background:var(--border-light);color:var(--text2)}
 .rank-1{background:#FEF3C7;color:#92400E}
 .rank-2{background:#F1F5F9;color:#475569}
 .rank-3{background:#FEF2F2;color:#991B1B}
 
-/* DIVIDER */
-.divider{height:1px;background:var(--border-light);margin:1rem 0}
+/* DEPT FILTER TABS */
+.dept-tab-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.dept-tab{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-weight:500;color:var(--text2);transition:all .15s}
+.dept-tab:hover{background:var(--border-light)}
+.dept-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-/* SCROLLBAR */
+/* STATUS INDICATOR */
+.file-status{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.file-status-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text2)}
+.fs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
@@ -191,7 +179,6 @@ button.danger:hover{background:var(--red-mid)}
 </head>
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <div class="brand">
     <div class="brand-icon">
@@ -200,29 +187,31 @@ button.danger:hover{background:var(--red-mid)}
     Break Tracker Pro
   </div>
   <div class="nav-right">
-    <span class="nb-file" id="nb-file">No file loaded</span>
+    <span class="nb-file" id="nb-file">No files loaded</span>
     <span class="nb-badge" id="nb-badge"></span>
   </div>
 </div>
 
 <div class="layout">
-  <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Navigation</div>
       <div class="nav-item active" onclick="goto('upload',this)">
         <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="12" height="1.5" rx="1" fill="currentColor"/><path d="M8 2v7M5.5 4.5 8 2l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Upload file
+        Upload files
       </div>
       <div class="nav-item" onclick="goto('overview',this)">
         <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".6"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg></span>
         Overview
       </div>
-
       <div class="nav-item" onclick="goto('employees',this)">
         <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity=".6"/><path d="M2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
         Employees
         <span class="cpill" id="side-vcount" style="display:none">0</span>
+      </div>
+      <div class="nav-item" onclick="goto('department',this)">
+        <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="3" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="8" width="9" height="3" rx="1" fill="currentColor" opacity=".7"/><rect x="1" y="13" width="6" height="2" rx="1" fill="currentColor"/></svg></span>
+        By Department
       </div>
       <div class="nav-item" onclick="goto('charts',this)">
         <span class="nav-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="9" width="3" height="6" rx="1" fill="currentColor"/><rect x="6" y="5" width="3" height="10" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="1" width="3" height="14" rx="1" fill="currentColor" opacity=".5"/></svg></span>
@@ -253,8 +242,12 @@ button.danger:hover{background:var(--red-mid)}
           <span style="font-weight:600;color:var(--text)" id="qs-limit">75 min</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border-light)">
-          <span style="color:var(--text2)">Total employees</span>
+          <span style="color:var(--text2)">Employees</span>
           <span style="font-weight:600;color:var(--text)" id="qs-emp">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border-light)">
+          <span style="color:var(--text2)">Departments</span>
+          <span style="font-weight:600;color:var(--accent)" id="qs-dept">—</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--border-light)">
           <span style="color:var(--text2)">Violations</span>
@@ -268,24 +261,59 @@ button.danger:hover{background:var(--red-mid)}
     </div>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
 
     <!-- ═══ UPLOAD PAGE ═══ -->
     <div class="page active" id="page-upload">
-      <div class="page-title">Upload attendance file <div class="page-sub">Analysed entirely in your browser — no data leaves your device</div></div>
-      <div class="upload-zone" id="dz" onclick="document.getElementById('fi').click()">
-        <input type="file" id="fi" accept=".xlsx,.xls,.csv" style="display:none">
-        <div class="upload-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3v13M8 7l4-4 4 4" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <div class="page-title">Upload files
+        <div class="page-sub">Upload both files below — analysed entirely in your browser, no data leaves your device</div>
+      </div>
+
+      <div class="upload-grid">
+        <!-- File 1: Attendance -->
+        <div>
+          <div class="upload-zone" id="dz1" onclick="document.getElementById('fi1').click()">
+            <input type="file" id="fi1" accept=".xlsx,.xls,.csv" style="display:none">
+            <span class="upload-tag" style="background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-mid)">File 1 — Required</span>
+            <div class="upload-icon" style="background:var(--accent-light);border:1px solid var(--accent-mid)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v13M8 7l4-4 4 4" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div class="upload-title">Attendance file</div>
+            <div class="upload-sub">Contains punch records with in/out times<br>Emp Code · Name · Att. Date · Punch Records</div>
+            <div class="file-status" id="fs1" style="display:none">
+              <div class="file-status-item"><span class="fs-dot" style="background:var(--green)"></span><span id="fs1-name"></span></div>
+            </div>
+          </div>
         </div>
-        <div class="upload-title">Drop your Excel or CSV here</div>
-        <div class="upload-sub">Supports .xlsx, .xls and .csv formats<br>System punches (SE) are automatically ignored</div>
+
+        <!-- File 2: Shift Schedule -->
+        <div>
+          <div class="upload-zone" id="dz2" onclick="document.getElementById('fi2').click()">
+            <input type="file" id="fi2" accept=".xlsx,.xls,.csv" style="display:none">
+            <span class="upload-tag" style="background:var(--green-light);color:var(--green);border:1px solid var(--green-mid)">File 2 — Required</span>
+            <div class="upload-icon" style="background:var(--green-light);border:1px solid var(--green-mid)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#16A34A" stroke-width="1.8"/><path d="M3 9h18M8 4v5M16 4v5" stroke="#16A34A" stroke-width="1.6" stroke-linecap="round"/><path d="M7 14h4M7 17h6" stroke="#16A34A" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="upload-title">Department wise</div>
+            <div class="upload-sub">Maps employees to dept & shift<br>S.No · E.Code · Name · Shift · InTime · OutTime · Dept</div>
+            <div class="file-status" id="fs2" style="display:none">
+              <div class="file-status-item"><span class="fs-dot" style="background:var(--green)"></span><span id="fs2-name"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process button -->
+      <div style="text-align:center;margin-bottom:1.5rem">
+        <button class="primary" id="process-btn" onclick="processFiles()" style="padding:10px 32px;font-size:13px;display:none;margin:0 auto">
+          Process both files
+        </button>
+        <div id="upload-hint" style="font-size:12px;color:var(--text3);margin-top:8px"></div>
       </div>
 
       <div class="grid-2">
         <div class="card">
-          <div class="card-head">Expected columns</div>
+          <div class="card-head">File 1 — Expected columns (Attendance)</div>
           <div class="card-body">
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.875rem">
               <span class="badge b-blue">Emp Code</span>
@@ -297,20 +325,30 @@ button.danger:hover{background:var(--red-mid)}
             </div>
             <div style="font-size:11px;color:var(--text2);line-height:1.7">
               Punch format: <code style="background:var(--border-light);padding:2px 6px;border-radius:5px;font-size:10px">HH:MM:in(AB),HH:MM:out(AB),…</code><br>
-              Break time = total minutes outside (out→in gaps, AB punches only)
+              System punches (SE) are automatically ignored
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-head">Shift detection logic</div>
-          <div class="card-body" style="padding:.875rem 1.25rem">
-            <table class="shift-table">
-              <tr><td><span class="shift-swatch" style="background:#2563EB"></span>General</td><td style="color:var(--text2)">9:00 – 18:30</td><td><span class="badge b-gray">Default</span></td></tr>
-              <tr><td><span class="shift-swatch" style="background:#16A34A"></span>Morning</td><td style="color:var(--text2)">6:00 – 14:00</td><td><span class="badge b-green">6:00–7:59</span></td></tr>
-              <tr><td><span class="shift-swatch" style="background:#D97706"></span>Afternoon</td><td style="color:var(--text2)">14:00 – 23:00</td><td><span class="badge b-amber">12:00–15:59</span></td></tr>
-              <tr><td><span class="shift-swatch" style="background:#7C3AED"></span>Night</td><td style="color:var(--text2)">22:00 – 6:00</td><td><span class="badge b-purple">22:00+</span></td></tr>
-              <tr><td><span class="shift-swatch" style="background:#DB2777"></span>Mktg/Sales</td><td style="color:var(--text2)">10:30 – 19:30</td><td><span class="badge b-gray">Dept col</span></td></tr>
-            </table>
+          <div class="card-head">File 2 — Expected columns (Department wise)</div>
+          <div class="card-body">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.875rem">
+              <span class="badge b-green">S.No</span>
+              <span class="badge b-green">E. Code</span>
+              <span class="badge b-green">Name</span>
+              <span class="badge b-green">Shift</span>
+              <span class="badge b-green">InTime</span>
+              <span class="badge b-green">OutTime</span>
+              <span class="badge b-green">Work Dur.</span>
+              <span class="badge b-green">OT</span>
+              <span class="badge b-green">Tot. Dur.</span>
+              <span class="badge b-green">Status</span>
+              <span class="badge b-green">Department</span>
+            </div>
+            <div style="font-size:11px;color:var(--text2);line-height:1.7">
+              Employee code (E. Code) is used to match records across both files.<br>
+              Department column enriches grouping &amp; filtering.
+            </div>
           </div>
         </div>
       </div>
@@ -320,59 +358,46 @@ button.danger:hover{background:var(--red-mid)}
     <div class="page" id="page-overview">
       <div class="page-title">Overview</div>
       <div class="stat-row" id="ov-stats"></div>
-
       <div class="grid-2">
         <div class="card">
-          <div class="card-head">
-            Top violators
-            <span class="badge b-red" id="viol-count-badge"></span>
-          </div>
+          <div class="card-head">Top violators <span class="badge b-red" id="viol-count-badge"></span></div>
           <div class="tbl-wrap">
             <table>
               <thead><tr>
                 <th style="width:36px"></th>
                 <th>Employee</th>
+                <th>Dept</th>
                 <th>Shift</th>
                 <th>Days over</th>
                 <th>Total excess</th>
+                <th>Total work hrs</th>
               </tr></thead>
               <tbody id="top-viol-body"></tbody>
             </table>
           </div>
         </div>
-
         <div class="card">
-          <div class="card-head">
-            Perfect attendance — no violations
-            <span class="badge b-green" id="ok-count-badge"></span>
-          </div>
+          <div class="card-head">Perfect attendance — no violations <span class="badge b-green" id="ok-count-badge"></span></div>
           <div class="tbl-wrap">
             <table>
-              <thead><tr>
-                <th>Employee</th>
-                <th>Shift</th>
-                <th>Days</th>
-                <th>Avg break</th>
-              </tr></thead>
+              <thead><tr><th>Employee</th><th>Dept</th></tr></thead>
               <tbody id="ok-body"></tbody>
             </table>
           </div>
         </div>
       </div>
-
       <div class="card">
-        <div class="card-head">Monthly summary — all employees avg break per day</div>
+        <div class="card-head">Monthly summary — all employees</div>
         <div class="tbl-wrap">
           <table>
             <thead><tr>
               <th>Employee</th>
+              <th>Dept</th>
               <th>Shift</th>
               <th>Present days</th>
               <th>Avg break / day</th>
-              <th>Max break day</th>
+              <th>Avg work hrs / day</th>
               <th>Days exceeded</th>
-              <th>Total excess</th>
-              <th>Compliance</th>
             </tr></thead>
             <tbody id="monthly-body"></tbody>
           </table>
@@ -385,6 +410,7 @@ button.danger:hover{background:var(--red-mid)}
       <div class="page-title">Employees</div>
       <div class="filter-bar">
         <input type="text" id="emp-search" placeholder="Search name or code…" style="width:200px" oninput="renderEmpList()">
+        <select id="emp-dept" onchange="renderEmpList()"><option value="">All departments</option></select>
         <select id="emp-shift" onchange="renderEmpList()">
           <option value="">All shifts</option>
           <option>General</option><option>Morning</option><option>Afternoon</option><option>Night</option><option>Marketing/Sales</option>
@@ -404,31 +430,39 @@ button.danger:hover{background:var(--red-mid)}
       <div id="emp-list"></div>
     </div>
 
+    <!-- ═══ DEPARTMENT PAGE ═══ -->
+    <div class="page" id="page-department">
+      <div class="page-title">By Department</div>
+      <div id="dept-tab-row" class="dept-tab-wrap"></div>
+      <div id="dept-content"></div>
+    </div>
+
     <!-- ═══ CHARTS PAGE ═══ -->
     <div class="page" id="page-charts">
       <div class="page-title">Charts</div>
-
       <div class="chart-card" style="margin-bottom:1.25rem">
         <div class="chart-title">Daily violation trend</div>
-        <div class="chart-sub">Number of employees who exceeded the break limit on each date</div>
-        <div class="chart-legend">
-          <span><span class="legend-dot" style="background:#DC2626"></span>Employees exceeded</span>
-        </div>
+        <div class="chart-sub">Employees who exceeded the break limit on each date</div>
         <div style="position:relative;height:240px"><canvas id="c2"></canvas></div>
       </div>
-
       <div class="grid-2">
         <div class="chart-card">
-          <div class="chart-title">Average break time per employee (top 20)</div>
-          <div class="chart-sub">Red = exceeded limit · dashed line = limit (75 min)</div>
+          <div class="chart-title">Avg break time per employee (top 20)</div>
+          <div class="chart-sub">Red = exceeded limit · dashed line = limit</div>
           <div style="position:relative;height:300px"><canvas id="c5"></canvas></div>
         </div>
         <div class="chart-card">
-          <div class="chart-title">Break violations by shift</div>
-          <div class="chart-sub">Employees who exceeded (coloured) vs stayed within limit (grey) · % above bar = violation rate</div>
-          <div class="chart-legend" id="leg-shift"></div>
+          <div class="chart-title">Violations by department</div>
+          <div class="chart-sub">Exceeded (coloured) vs within limit (grey)</div>
+          <div class="chart-legend" id="leg-dept"></div>
           <div style="position:relative;height:300px"><canvas id="c6"></canvas></div>
         </div>
+      </div>
+      <div class="chart-card" style="margin-top:14px">
+        <div class="chart-title">Violations by shift</div>
+        <div class="chart-sub">Exceeded (coloured) vs within limit (grey) · % above bar = violation rate</div>
+        <div class="chart-legend" id="leg-shift"></div>
+        <div style="position:relative;height:260px"><canvas id="c7"></canvas></div>
       </div>
     </div>
 
@@ -439,15 +473,11 @@ button.danger:hover{background:var(--red-mid)}
         <div class="card-head">Break policy</div>
         <div class="card-body">
           <div class="settings-row">
-            <div><div class="settings-label">Break limit</div><div class="settings-sub">Maximum allowed outside / break time per day</div></div>
+            <div><div class="settings-label">Break limit</div><div class="settings-sub">Maximum allowed break/outside time per day</div></div>
             <div style="display:flex;align-items:center;gap:8px">
               <input type="number" id="set-limit" value="75" min="1" max="480" style="width:72px;text-align:center" onchange="applySettings()">
               <span style="font-size:12px;color:var(--text2)">minutes</span>
             </div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Shift detection</div><div class="settings-sub">Auto-detected from first in-punch time</div></div>
-            <span class="badge b-blue">Auto</span>
           </div>
         </div>
       </div>
@@ -455,11 +485,11 @@ button.danger:hover{background:var(--red-mid)}
         <div class="card-head">Shift schedule</div>
         <div class="card-body">
           <table class="shift-table">
-            <tr><td><span class="shift-swatch" style="background:#2563EB"></span>General</td><td style="color:var(--text2)">09:00 – 18:30</td><td style="color:var(--text3);font-size:11px">Detected by default</td></tr>
+            <tr><td><span class="shift-swatch" style="background:#2563EB"></span>General</td><td style="color:var(--text2)">09:00 – 18:30</td><td style="color:var(--text3);font-size:11px">Default</td></tr>
             <tr><td><span class="shift-swatch" style="background:#16A34A"></span>Morning</td><td style="color:var(--text2)">06:00 – 14:00</td><td style="color:var(--text3);font-size:11px">In-time 06:00–07:59</td></tr>
             <tr><td><span class="shift-swatch" style="background:#D97706"></span>Afternoon</td><td style="color:var(--text2)">14:00 – 23:00</td><td style="color:var(--text3);font-size:11px">In-time 12:00–15:59</td></tr>
             <tr><td><span class="shift-swatch" style="background:#7C3AED"></span>Night</td><td style="color:var(--text2)">22:00 – 06:00</td><td style="color:var(--text3);font-size:11px">In-time 20:00+</td></tr>
-            <tr><td><span class="shift-swatch" style="background:#DB2777"></span>Marketing / Sales</td><td style="color:var(--text2)">10:30 – 19:30</td><td style="color:var(--text3);font-size:11px">Department column</td></tr>
+            <tr><td><span class="shift-swatch" style="background:#DB2777"></span>Marketing / Sales</td><td style="color:var(--text2)">10:30 – 19:30</td><td style="color:var(--text3);font-size:11px">Dept column / shift file</td></tr>
           </table>
         </div>
       </div>
@@ -467,23 +497,24 @@ button.danger:hover{background:var(--red-mid)}
         <div class="card-head">Data</div>
         <div class="card-body">
           <div class="settings-row">
-            <div><div class="settings-label">Clear loaded data</div><div class="settings-sub">Remove file from memory and reset dashboard</div></div>
+            <div><div class="settings-label">Clear all data</div><div class="settings-sub">Remove both files and reset dashboard</div></div>
             <button class="danger" onclick="clearData()">Clear data</button>
           </div>
         </div>
       </div>
     </div>
 
-  </div><!-- /main -->
-</div><!-- /layout -->
+  </div>
+</div>
 
 <script>
-/* ════════════════════════════════
-   STATE & CONSTANTS
-════════════════════════════════ */
+/* ═══ STATE ═══ */
 let LIMIT = 75;
 let records = [];
+let shiftMap = {}; // empCode -> {shift, dept, inTime, outTime, status}
 let charts = {};
+let file1Loaded = false, file2Loaded = false;
+let wb1 = null, wb2 = null;
 
 const SHIFTS = ['General','Morning','Afternoon','Night','Marketing/Sales'];
 const SHIFT_COLORS = {General:'#2563EB',Morning:'#16A34A',Afternoon:'#D97706',Night:'#7C3AED','Marketing/Sales':'#DB2777'};
@@ -491,37 +522,47 @@ const SHIFT_BG     = {General:'#EFF6FF',Morning:'#F0FDF4',Afternoon:'#FFFBEB',Ni
 const SHIFT_TXT    = {General:'#1D4ED8',Morning:'#15803D',Afternoon:'#B45309',Night:'#6D28D9','Marketing/Sales':'#BE185D'};
 const SHIFT_BORDER = {General:'#BFDBFE',Morning:'#BBF7D0',Afternoon:'#FDE68A',Night:'#DDD6FE','Marketing/Sales':'#FBCFE8'};
 
-/* ════════════════════════════════
-   HELPERS
-════════════════════════════════ */
+const DEPT_PALETTE = ['#2563EB','#16A34A','#D97706','#7C3AED','#DB2777','#0D9488','#DC2626','#EA580C','#0891B2','#65A30D'];
+
+/* ═══ HELPERS ═══ */
 function toMins(t){if(!t||!t.includes(':'))return null;const p=t.split(':');return +p[0]*60+ +p[1];}
 function hhmm(m){return String(Math.floor(Math.abs(m)/60)).padStart(2,'0')+':'+String(Math.abs(m)%60).padStart(2,'0');}
 function fmtM(m){m=Math.round(m);const h=Math.floor(Math.abs(m)/60),mn=Math.abs(m)%60;return(h?h+'h ':'')+(mn?mn+'m':'')+(h&&!mn?'':'');}
+function fmtH(mins){mins=Math.round(mins);const h=Math.floor(Math.abs(mins)/60),mn=Math.abs(mins)%60;if(!h&&!mn)return'0m';return(h?h+'h ':'')+(mn?mn+'m':'');}
 function avg(arr){return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;}
-function dateToDay(d){const parts=d.split('-');const months={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};try{return new Date(+parts[2],months[parts[1]]-1,+parts[0]).getDay();}catch{return -1;}}
+function norm(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,' ');}
 
 function shiftBadge(s){
-  return `<span class="badge" style="background:${SHIFT_BG[s]||'#F1F5F9'};color:${SHIFT_TXT[s]||'#475569'};border:1px solid ${SHIFT_BORDER[s]||'#E2E8F0'}">${s}</span>`;
+  return `<span class="badge" style="background:${SHIFT_BG[s]||'#F1F5F9'};color:${SHIFT_TXT[s]||'#475569'};border:1px solid ${SHIFT_BORDER[s]||'#E2E8F0'}">${s||'General'}</span>`;
+}
+function deptBadge(d,idx){
+  if(!d)return`<span class="badge b-gray">—</span>`;
+  const c=DEPT_PALETTE[idx%DEPT_PALETTE.length];
+  return`<span class="badge" style="background:${c}18;color:${c};border:1px solid ${c}44">${d}</span>`;
 }
 
-/* ════════════════════════════════
-   SHIFT DETECTION
-════════════════════════════════ */
-function detectShift(inTimeTxt,dept){
+/* ═══ SHIFT DETECTION ═══ */
+function detectShift(inTimeTxt,dept,shiftLabel){
+  if(shiftLabel&&shiftLabel!=='—'&&shiftLabel.trim())return normalizeShiftLabel(shiftLabel);
   if(dept&&/market|sales/i.test(dept))return'Marketing/Sales';
   const m=toMins(inTimeTxt);
   if(m===null)return'General';
   if(m>=360&&m<720)return'Morning';
-  if(m>=720&&m<960)return'Afternoon';
-  if(m>=960&&m<1200)return'Afternoon';
-  if(m>=1200)return'Night';
-  if(m<360)return'Night';
+  if(m>=720&&m<1200)return'Afternoon';
+  if(m>=1200||m<360)return'Night';
   return'General';
 }
+function normalizeShiftLabel(s){
+  s=String(s).trim();
+  if(/morning|AM/i.test(s))return'Morning';
+  if(/afternoon|PM/i.test(s))return'Afternoon';
+  if(/night|NS/i.test(s))return'Night';
+  if(/market|sales/i.test(s))return'Marketing/Sales';
+  if(/general|GS/i.test(s))return'General';
+  return s||'General';
+}
 
-/* ════════════════════════════════
-   PUNCH PARSER
-════════════════════════════════ */
+/* ═══ PUNCH PARSER ═══ */
 function parsePunches(punchStr){
   if(!punchStr)return{workMins:0,breakMins:0,firstIn:'',lastOut:''};
   const tokens=punchStr.split(',').map(s=>s.trim());
@@ -546,10 +587,58 @@ function parsePunches(punchStr){
   return{workMins,breakMins,firstIn,lastOut:lastOutStr};
 }
 
-/* ════════════════════════════════
-   FILE PROCESSOR
-════════════════════════════════ */
-function processWB(wb){
+/* ═══ PARSE SHIFT FILE ═══ */
+function parseShiftWB(wb){
+  const map={};
+  for(const sn of wb.SheetNames){
+    const ws=wb.Sheets[sn];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    if(!rows.length)continue;
+    // find header row
+    let headerIdx=-1,hdr={};
+    for(let i=0;i<Math.min(rows.length,10);i++){
+      const r=rows[i].map(x=>norm(String(x)));
+      const codeIdx=r.findIndex(c=>c.includes('e. code')||c==='e.code'||c==='emp code'||c==='empcode'||c==='employee code');
+      if(codeIdx>=0){
+        headerIdx=i;
+        r.forEach((col,j)=>hdr[col]=j);
+        break;
+      }
+    }
+    if(headerIdx<0){
+      // try first row
+      const r=rows[0].map(x=>norm(String(x)));
+      r.forEach((col,j)=>hdr[col]=j);
+      headerIdx=0;
+    }
+    const ci=(keys)=>{for(const k of keys){for(const h in hdr){if(h.includes(k))return hdr[h];}}return -1;};
+    const codeCol=ci(['e. code','e.code','emp code','empcode','employee code','code']);
+    const nameCol=ci(['name','employee name']);
+    const shiftCol=ci(['shift']);
+    const inCol=ci(['intime','in time','in-time']);
+    const outCol=ci(['outtime','out time','out-time']);
+    const deptCol=ci(['department','dept']);
+    const statusCol=ci(['status']);
+
+    for(let i=headerIdx+1;i<rows.length;i++){
+      const row=rows[i];
+      const code=String(row[codeCol]||'').trim();
+      if(!code||code==='0'||code==='000')continue;
+      map[code]={
+        name:String(row[nameCol]||'').trim(),
+        shift:normalizeShiftLabel(String(row[shiftCol]||'').trim()),
+        inTime:String(row[inCol]||'').trim(),
+        outTime:String(row[outCol]||'').trim(),
+        dept:String(row[deptCol]||'').trim(),
+        status:String(row[statusCol]||'').trim()
+      };
+    }
+  }
+  return map;
+}
+
+/* ═══ ATTENDANCE FILE PROCESSOR ═══ */
+function processAttWB(wb){
   const out=[];
   for(const sn of wb.SheetNames){
     const ws=wb.Sheets[sn];
@@ -570,17 +659,21 @@ function processWB(wb){
       const punchCell=c.slice().reverse().find(x=>/:in\(AB\)|:out\(AB\)/i.test(x))||'';
       if(!punchCell)continue;
       const{workMins,breakMins,firstIn,lastOut}=parsePunches(punchCell);
-      const shift=detectShift(inTimeCell||firstIn,dept);
+
+      // Enrich from shift file
+      const sf=shiftMap[code]||{};
+      const finalDept=sf.dept||dept||'';
+      const shiftLabel=sf.shift||'';
+      const shift=detectShift(inTimeCell||firstIn,finalDept,shiftLabel);
       const exceeded=breakMins>LIMIT;
-      out.push({code,name:name||code,dept,date:dateCell,inTime:firstIn||inTimeCell,outTime:lastOut,workMins,breakMins,exceeded,excess:Math.max(0,breakMins-LIMIT),shift,punches:punchCell});
+
+      out.push({code,name:name||sf.name||code,dept:finalDept,date:dateCell,inTime:firstIn||inTimeCell,outTime:lastOut,workMins,breakMins,exceeded,excess:Math.max(0,breakMins-LIMIT),shift,punches:punchCell});
     }
   }
   return out;
 }
 
-/* ════════════════════════════════
-   GROUP BY EMPLOYEE
-════════════════════════════════ */
+/* ═══ GROUP BY EMPLOYEE ═══ */
 function groupByEmp(recs){
   const m={};
   for(const r of recs){
@@ -591,9 +684,17 @@ function groupByEmp(recs){
   return Object.values(m).sort((a,b)=>b.days.filter(d=>d.exceeded).length-a.days.filter(d=>d.exceeded).length||a.name.localeCompare(b.name));
 }
 
-/* ════════════════════════════════
-   NAVIGATION
-════════════════════════════════ */
+function getAllDepts(){
+  const d=new Set(records.map(r=>r.dept).filter(Boolean));
+  return [...d].sort();
+}
+
+function getDeptColor(dept,depts){
+  const idx=depts.indexOf(dept);
+  return DEPT_PALETTE[idx>=0?idx%DEPT_PALETTE.length:0];
+}
+
+/* ═══ NAVIGATION ═══ */
 function goto(pg,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -601,36 +702,118 @@ function goto(pg,el){
   if(el)el.classList.add('active');
   if(pg==='overview')renderOverview();
   if(pg==='employees')renderEmpList();
+  if(pg==='department')renderDeptPage();
   if(pg==='charts')renderCharts();
 }
 
-/* ════════════════════════════════
-   SETTINGS
-════════════════════════════════ */
+/* ═══ SETTINGS ═══ */
 function applySettings(){
   LIMIT=parseInt(document.getElementById('set-limit').value)||75;
   document.getElementById('qs-limit').textContent=LIMIT+' min';
   records.forEach(r=>{r.exceeded=r.breakMins>LIMIT;r.excess=Math.max(0,r.breakMins-LIMIT);});
 }
 function clearData(){
-  records=[];
-  document.getElementById('nb-file').textContent='No file loaded';
+  records=[];shiftMap={};file1Loaded=false;file2Loaded=false;wb1=null;wb2=null;
+  document.getElementById('nb-file').textContent='No files loaded';
   document.getElementById('nb-badge').style.display='none';
   document.getElementById('side-vcount').style.display='none';
   document.getElementById('shift-sidebar').style.display='none';
   document.getElementById('quick-stats-side').style.display='none';
+  document.getElementById('dz1').classList.remove('loaded');
+  document.getElementById('dz2').classList.remove('loaded');
+  document.getElementById('fs1').style.display='none';
+  document.getElementById('fs2').style.display='none';
+  document.getElementById('process-btn').style.display='none';
+  document.getElementById('fi1').value='';
+  document.getElementById('fi2').value='';
   goto('upload',document.querySelector('.nav-item'));
 }
 
-/* ════════════════════════════════
-   AFTER LOAD
-════════════════════════════════ */
-function afterLoad(filename){
+/* ═══ FILE UPLOAD HANDLING ═══ */
+function checkBothLoaded(){
+  const hint=document.getElementById('upload-hint');
+  const btn=document.getElementById('process-btn');
+  if(file1Loaded&&file2Loaded){
+    btn.style.display='inline-flex';
+    hint.textContent='Both files ready — click to process';
+    hint.style.color='var(--green)';
+  } else if(file1Loaded){
+    btn.style.display='none';
+    hint.textContent='Now upload File 2 (Department wise) to continue';
+    hint.style.color='var(--amber)';
+  } else if(file2Loaded){
+    btn.style.display='none';
+    hint.textContent='Now upload File 1 (attendance / punch file) to continue';
+    hint.style.color='var(--amber)';
+  } else {
+    btn.style.display='none';
+    hint.textContent='';
+  }
+}
+
+document.getElementById('fi1').addEventListener('change',function(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=function(ev){
+    wb1=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+    file1Loaded=true;
+    document.getElementById('dz1').classList.add('loaded');
+    document.getElementById('fs1').style.display='';
+    document.getElementById('fs1-name').textContent=f.name;
+    checkBothLoaded();
+  };
+  r.readAsArrayBuffer(f);
+});
+
+document.getElementById('fi2').addEventListener('change',function(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=function(ev){
+    wb2=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+    file2Loaded=true;
+    document.getElementById('dz2').classList.add('loaded');
+    document.getElementById('fs2').style.display='';
+    document.getElementById('fs2-name').textContent=f.name;
+    checkBothLoaded();
+  };
+  r.readAsArrayBuffer(f);
+});
+
+// Drag-drop for both zones
+['dz1','dz2'].forEach((id,idx)=>{
+  const dz=document.getElementById(id);
+  const fiId=idx===0?'fi1':'fi2';
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+  dz.addEventListener('drop',e=>{
+    e.preventDefault();dz.classList.remove('dragover');
+    const f=e.dataTransfer.files[0];
+    if(f){
+      const fi=document.getElementById(fiId);
+      fi.files=e.dataTransfer.files;
+      fi.dispatchEvent(new Event('change'));
+    }
+  });
+});
+
+function processFiles(){
+  if(!wb1||!wb2){alert('Please upload both files first.');return;}
+  // Parse shift file first to build lookup map
+  shiftMap=parseShiftWB(wb2);
+  // Parse attendance with enrichment
+  records=processAttWB(wb1);
+  if(!records.length){alert('No Present records with punch data found in File 1. Please check the format.');return;}
+  afterLoad();
+}
+
+function afterLoad(){
   const viol=records.filter(r=>r.exceeded).length;
   const groups=groupByEmp(records);
   const empViol=groups.filter(g=>g.days.some(d=>d.exceeded)).length;
   const complPct=records.length?Math.round((records.length-viol)/records.length*100):0;
-  document.getElementById('nb-file').textContent=filename;
+  const depts=getAllDepts();
+
+  document.getElementById('nb-file').textContent=`${groups.length} employees · ${depts.length} depts`;
   const badge=document.getElementById('nb-badge');
   badge.textContent=viol+' violations';badge.style.display='';
   document.getElementById('side-vcount').textContent=empViol;
@@ -639,43 +822,39 @@ function afterLoad(filename){
   document.getElementById('quick-stats-side').style.display='';
   document.getElementById('qs-limit').textContent=LIMIT+' min';
   document.getElementById('qs-emp').textContent=groups.length;
+  document.getElementById('qs-dept').textContent=depts.length||'—';
   document.getElementById('qs-viol').textContent=empViol;
   document.getElementById('qs-comp').textContent=complPct+'%';
+
+  // Populate dept filter
+  const deptSel=document.getElementById('emp-dept');
+  deptSel.innerHTML='<option value="">All departments</option>'+depts.map(d=>`<option>${d}</option>`).join('');
+
+  // Populate date filter
   const dates=[...new Set(records.map(r=>r.date))].sort();
-  const sel=document.getElementById('emp-date');
-  sel.innerHTML='<option value="">All dates</option>'+dates.map(d=>`<option>${d}</option>`).join('');
+  const dateSel=document.getElementById('emp-date');
+  dateSel.innerHTML='<option value="">All dates</option>'+dates.map(d=>`<option>${d}</option>`).join('');
+
   goto('overview',document.querySelectorAll('.nav-item')[1]);
 }
 
-/* ════════════════════════════════
-   OVERVIEW
-════════════════════════════════ */
+/* ═══ OVERVIEW ═══ */
 function renderOverview(){
   const groups=groupByEmp(records);
   const total=groups.length;
   const violated=groups.filter(g=>g.days.some(d=>d.exceeded)).length;
   const presdays=records.length;
-  const excdays=records.filter(r=>r.exceeded).length;
-
-  // Unique working dates in the data (excludes weekoffs since we only parse Present rows)
-  const uniqueDates=new Set(records.map(r=>r.date));
-  const workingDays=uniqueDates.size;
-
-  // Compliance = % of employees who had zero violations
   const compliantEmps=groups.filter(g=>g.days.every(d=>!d.exceeded)).length;
   const complPct=total?Math.round(compliantEmps/total*100):0;
-
   const avgBreak=presdays?Math.round(avg(records.map(r=>r.breakMins))):0;
-
-  const totalExcessMins=records.reduce((s,r)=>s+r.excess,0);
-  const avgExcessPerViolator=violated?Math.round(records.filter(r=>r.exceeded).reduce((s,r)=>s+r.excess,0)/violated):0;
+  const depts=getAllDepts();
 
   document.getElementById('ov-stats').innerHTML=`
     <div class="stat-card">
       <div class="sc-icon" style="background:var(--accent-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#2563EB" stroke-width="1.8"/><path d="M10 6v4l2.5 2.5" stroke="#2563EB" stroke-width="1.6" stroke-linecap="round"/></svg></div>
       <div class="sc-lbl">Total employees</div>
       <div class="sc-val">${total}</div>
-      <div class="sc-sub">Across all shifts</div>
+      <div class="sc-sub">${depts.length} department${depts.length!==1?'s':''}</div>
       <div class="sc-bar" style="background:var(--accent-mid)"></div>
     </div>
     <div class="stat-card">
@@ -693,11 +872,11 @@ function renderOverview(){
       <div class="sc-bar" style="background:var(--green-mid)"></div>
     </div>
     <div class="stat-card">
-      <div class="sc-icon" style="background:var(--green-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="sc-lbl">Avg break per employee</div>
+      <div class="sc-icon" style="background:var(--amber-light)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#D97706" stroke-width="1.6"/><path d="M10 7v3.5l2 2" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="sc-lbl">Avg break / employee</div>
       <div class="sc-val" style="color:${avgBreak>LIMIT?'var(--red)':'var(--green)'}">${fmtM(avgBreak)}</div>
       <div class="sc-sub">Limit is ${LIMIT} min</div>
-      <div class="sc-bar" style="background:var(--green-mid)"></div>
+      <div class="sc-bar" style="background:var(--amber-mid)"></div>
     </div>`;
 
   // Top violators
@@ -706,73 +885,139 @@ function renderOverview(){
   document.getElementById('top-viol-body').innerHTML=top.length?top.map((g,i)=>{
     const excD=g.days.filter(d=>d.exceeded).length;
     const totalExc=g.days.reduce((s,d)=>s+d.excess,0);
-    const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
+    const totalWork=g.days.reduce((s,d)=>s+d.workMins,0);
     const pct=Math.min(100,totalExc/300*100).toFixed(0);
     const rankCls=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank';
+    const deptIdx=depts.indexOf(g.dept);
     return`<tr>
       <td><span class="${rankCls}">${i+1}</span></td>
       <td><span style="font-weight:600">${g.name}</span><br><span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+      <td>${deptBadge(g.dept,deptIdx)}</td>
       <td>${shiftBadge(g.shift)}</td>
-      <td>${excD}/${g.days.length} days</td>
+      <td>${excD}/${g.days.length}</td>
       <td>+${fmtM(totalExc)}<span class="pbar-wrap"><span class="pbar" style="width:${pct}%;background:var(--red)"></span></span></td>
+      <td><span class="badge b-blue">${fmtH(totalWork)}</span></td>
     </tr>`;
-  }).join(''):'<tr><td colspan="5" class="empty">No violations found</td></tr>';
+  }).join(''):'<tr><td colspan="7" class="empty">No violations found</td></tr>';
 
-  // Perfect employees
+  // Perfect attendance
   const okGroups=groups.filter(g=>g.days.length>0&&g.days.every(d=>!d.exceeded));
   document.getElementById('ok-count-badge').textContent=okGroups.length+' employees';
-  document.getElementById('ok-body').innerHTML=okGroups.length?okGroups.slice(0,10).map(g=>{
-    const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
+  document.getElementById('ok-body').innerHTML=okGroups.length?okGroups.map(g=>{
+    const deptIdx=depts.indexOf(g.dept);
     return`<tr class="ok-row">
-      <td><span style="font-weight:600">${g.name}</span><br><span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
-      <td>${shiftBadge(g.shift)}</td>
-      <td>${g.days.length}</td>
-      <td><span class="badge b-green">${fmtM(avgB)}</span></td>
+      <td><span style="font-weight:600">${g.name}</span> <span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+      <td>${deptBadge(g.dept,deptIdx)}</td>
     </tr>`;
-  }).join(''):'<tr><td colspan="4" class="empty">—</td></tr>';
+  }).join(''):'<tr><td colspan="2" class="empty">—</td></tr>';
 
-  // Monthly summary table
+  // Monthly summary
   document.getElementById('monthly-body').innerHTML=groups.map(g=>{
     const excD=g.days.filter(d=>d.exceeded).length;
-    const totalExc=g.days.reduce((s,d)=>s+d.excess,0);
     const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
-    const maxB=Math.max(...g.days.map(d=>d.breakMins));
-    const maxDay=g.days.find(d=>d.breakMins===maxB);
-    const compPct=g.days.length?Math.round((g.days.length-excD)/g.days.length*100):0;
-    const barColor=compPct>=80?'var(--green)':compPct>=50?'var(--amber)':'var(--red)';
+    const avgWork=Math.round(avg(g.days.map(d=>d.workMins)));
+    const deptIdx=depts.indexOf(g.dept);
     return`<tr class="${excD>0?'exceeded-row':'ok-row'}">
       <td><span style="font-weight:600">${g.name}</span> <span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+      <td>${deptBadge(g.dept,deptIdx)}</td>
       <td>${shiftBadge(g.shift)}</td>
       <td>${g.days.length}</td>
       <td><span class="badge ${avgB>LIMIT?'b-red':avgB>LIMIT*0.8?'b-amber':'b-green'}">${fmtM(avgB)}</span></td>
-      <td>${fmtM(maxB)}<br><span style="font-size:10px;color:var(--text3)">${maxDay?maxDay.date:''}</span></td>
+      <td><span class="badge b-blue">${fmtH(avgWork)}</span></td>
       <td>${excD>0?`<span style="color:var(--red);font-weight:600">${excD}</span>`:`<span style="color:var(--green)">0</span>`}</td>
-      <td>${excD>0?`<span style="color:var(--red);font-weight:600">+${fmtM(totalExc)}</span>`:'<span style="color:var(--text3)">—</span>'}</td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div style="width:60px">
-            <div class="pbar-lg"><div class="pbar-lg-fill" style="width:${compPct}%;background:${barColor}"></div></div>
-          </div>
-          <span style="font-size:11px;font-weight:600;color:${barColor}">${compPct}%</span>
-        </div>
-      </td>
     </tr>`;
   }).join('');
 }
 
-/* ════════════════════════════════
-   ANALYSIS
-════════════════════════════════ */
-/* ════════════════════════════════
-   EMPLOYEES
-════════════════════════════════ */
+/* ═══ DEPARTMENT PAGE ═══ */
+let activeDept='ALL';
+function renderDeptPage(){
+  const depts=getAllDepts();
+  const tabRow=document.getElementById('dept-tab-row');
+  tabRow.innerHTML=`<span class="dept-tab ${activeDept==='ALL'?'active':''}" onclick="setActiveDept('ALL')">All departments</span>`
+    +depts.map(d=>`<span class="dept-tab ${activeDept===d?'active':''}" onclick="setActiveDept('${d.replace(/'/g,"\\'")}')">${d}</span>`).join('');
+  renderDeptContent();
+}
+function setActiveDept(d){
+  activeDept=d;
+  renderDeptPage();
+}
+function renderDeptContent(){
+  const depts=getAllDepts();
+  const content=document.getElementById('dept-content');
+  const showDepts=activeDept==='ALL'?depts:[activeDept];
+
+  if(!depts.length){
+    content.innerHTML='<div class="empty">No department data found. Make sure File 2 includes a Department column.</div>';
+    return;
+  }
+
+  let html='';
+  for(const dept of showDepts){
+    const deptRecs=records.filter(r=>r.dept===dept);
+    const deptGroups=groupByEmp(deptRecs);
+    const violated=deptGroups.filter(g=>g.days.some(d=>d.exceeded)).length;
+    const compliant=deptGroups.filter(g=>g.days.every(d=>!d.exceeded)).length;
+    const compPct=deptGroups.length?Math.round(compliant/deptGroups.length*100):0;
+    const avgB=deptRecs.length?Math.round(avg(deptRecs.map(r=>r.breakMins))):0;
+    const deptIdx=depts.indexOf(dept);
+    const color=DEPT_PALETTE[deptIdx%DEPT_PALETTE.length];
+
+    html+=`<div class="card" style="border-left:4px solid ${color}">
+      <div class="card-head">
+        <span>${dept}</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="badge b-gray">${deptGroups.length} employees</span>
+          ${violated>0?`<span class="badge b-red">${violated} violations</span>`:`<span class="badge b-green">No violations</span>`}
+          <span class="badge b-blue">${compPct}% compliant</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding:.75rem 1.25rem">
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1rem">
+          <div class="mini-stat"><div class="ms-val">${deptGroups.length}</div><div class="ms-lbl">Employees</div></div>
+          <div class="mini-stat"><div class="ms-val" style="color:${violated>0?'var(--red)':'var(--green)'}">${violated}</div><div class="ms-lbl">Violated</div></div>
+          <div class="mini-stat"><div class="ms-val" style="color:var(--green)">${compPct}%</div><div class="ms-lbl">Compliance</div></div>
+          <div class="mini-stat"><div class="ms-val" style="color:${avgB>LIMIT?'var(--red)':'var(--text)'}">${fmtM(avgB)}</div><div class="ms-lbl">Avg break</div></div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>Employee</th><th>Shift</th><th>Days present</th><th>Avg break/day</th><th>Avg work hrs/day</th><th>Days exceeded</th>
+            </tr></thead>
+            <tbody>
+              ${deptGroups.map(g=>{
+                const excD=g.days.filter(d=>d.exceeded).length;
+                const avgBr=Math.round(avg(g.days.map(d=>d.breakMins)));
+                const avgWk=Math.round(avg(g.days.map(d=>d.workMins)));
+                return`<tr class="${excD>0?'exceeded-row':'ok-row'}">
+                  <td><span style="font-weight:600">${g.name}</span> <span style="font-size:10px;color:var(--text3)">#${g.code}</span></td>
+                  <td>${shiftBadge(g.shift)}</td>
+                  <td>${g.days.length}</td>
+                  <td><span class="badge ${avgBr>LIMIT?'b-red':avgBr>LIMIT*.8?'b-amber':'b-green'}">${fmtM(avgBr)}</span></td>
+                  <td><span class="badge b-blue">${fmtH(avgWk)}</span></td>
+                  <td>${excD>0?`<span style="color:var(--red);font-weight:600">${excD}</span>`:`<span style="color:var(--green)">0</span>`}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }
+  content.innerHTML=html;
+}
+
+/* ═══ EMPLOYEES ═══ */
 function renderEmpList(){
   const q=document.getElementById('emp-search').value.toLowerCase();
+  const df_dept=document.getElementById('emp-dept').value;
   const sf=document.getElementById('emp-shift').value;
   const st=document.getElementById('emp-status').value;
   const df=document.getElementById('emp-date').value;
+  const depts=getAllDepts();
   let groups=groupByEmp(records);
   if(q)groups=groups.filter(g=>g.name.toLowerCase().includes(q)||g.code.toLowerCase().includes(q));
+  if(df_dept)groups=groups.filter(g=>g.dept===df_dept);
   if(sf)groups=groups.filter(g=>g.shift===sf);
   if(df)groups=groups.map(g=>({...g,days:g.days.filter(d=>d.date===df)})).filter(g=>g.days.length);
   if(st==='exceeded')groups=groups.filter(g=>g.days.some(d=>d.exceeded));
@@ -784,17 +1029,15 @@ function renderEmpList(){
   el.innerHTML=groups.map((g,i)=>{
     const excD=g.days.filter(d=>d.exceeded).length;
     const totalExc=g.days.reduce((s,d)=>s+d.excess,0);
+    const totalWork=g.days.reduce((s,d)=>s+d.workMins,0);
     const avgB=Math.round(avg(g.days.map(d=>d.breakMins)));
-    const badge=excD>0
-      ?`<span class="badge b-red">${excD} day${excD>1?'s':''} exceeded</span>`
-      :`<span class="badge b-green">No violations</span>`;
+    const badge=excD>0?`<span class="badge b-red">${excD} day${excD>1?'s':''} exceeded</span>`:`<span class="badge b-green">No violations</span>`;
     const initials=(g.name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const deptIdx=depts.indexOf(g.dept);
 
     const dayRows=g.days.map(d=>{
       const cls=d.exceeded?'exceeded-row':'ok-row';
       const pct=Math.min(100,d.breakMins/(LIMIT*2)*100).toFixed(0);
-      const excessCell=d.exceeded?`<span style="color:var(--red);font-weight:600">+${fmtM(d.excess)}</span>`:`<span style="color:var(--text3)">—</span>`;
-      const statusCell=d.exceeded?`<span class="badge b-red">Exceeded</span>`:`<span class="badge b-green">OK</span>`;
       return`<tr class="${cls}">
         <td style="font-size:11px">${d.date}</td>
         <td>${d.inTime||'—'}</td>
@@ -802,8 +1045,8 @@ function renderEmpList(){
         <td>${shiftBadge(d.shift)}</td>
         <td>${fmtM(d.workMins)}</td>
         <td>${fmtM(d.breakMins)}<span class="pbar-wrap"><span class="pbar" style="width:${pct}%;background:${d.exceeded?'var(--red)':'var(--green)'}"></span></span></td>
-        <td>${excessCell}</td>
-        <td>${statusCell}</td>
+        <td>${d.exceeded?`<span style="color:var(--red);font-weight:600">+${fmtM(d.excess)}</span>`:`<span style="color:var(--text3)">—</span>`}</td>
+        <td>${d.exceeded?`<span class="badge b-red">Exceeded</span>`:`<span class="badge b-green">OK</span>`}</td>
       </tr>`;
     }).join('');
 
@@ -814,41 +1057,42 @@ function renderEmpList(){
           <div>
             <div class="emp-name">${g.name} <span style="font-size:10px;color:var(--text3);font-weight:400">#${g.code}</span></div>
             <div class="emp-meta">
-              <span>${g.days.length} days present</span>
+              <span>${g.days.length} days</span>
+              <span style="color:var(--border)">·</span>
+              ${deptBadge(g.dept,deptIdx)}
               <span style="color:var(--border)">·</span>
               ${shiftBadge(g.shift)}
               <span style="color:var(--border)">·</span>
               <span>Avg break: <strong style="color:${avgB>LIMIT?'var(--red)':'var(--text)'}">${fmtM(avgB)}</strong></span>
+              <span style="color:var(--border)">·</span>
+              <span>Work: <strong style="color:var(--accent)">${fmtH(totalWork)}</strong></span>
             </div>
           </div>
         </div>
         <div class="emp-right">
           ${badge}
-          <button onclick="event.stopPropagation();downloadEmpCSV('${g.code}','${g.name.replace(/'/g,"\\'")}',${i})" style="font-size:11px;padding:4px 10px;display:flex;align-items:center;gap:4px;border-color:var(--border)" title="Download CSV for this employee">
-            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="11" width="12" height="1.5" rx="1" fill="currentColor"/></svg>
-            CSV
+          <button onclick="event.stopPropagation();downloadEmpCSV('${g.code}','${g.name.replace(/'/g,"\\'")}')" style="font-size:11px;padding:4px 10px;display:flex;align-items:center;gap:4px" title="Download CSV">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="11" width="12" height="1.5" rx="1" fill="currentColor"/></svg>CSV
           </button>
           <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
       </div>
       <div class="emp-detail" id="ed${i}">
         <div class="emp-detail-inner">
-          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem">
+          <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:1rem">
             <div class="mini-stat"><div class="ms-val">${g.days.length}</div><div class="ms-lbl">Days present</div></div>
             <div class="mini-stat"><div class="ms-val" style="color:${avgB>LIMIT?'var(--red)':'var(--green)'}">${fmtM(avgB)}</div><div class="ms-lbl">Avg break</div></div>
             <div class="mini-stat"><div class="ms-val" style="color:${excD>0?'var(--red)':'var(--green)'}">${excD}</div><div class="ms-lbl">Days exceeded</div></div>
             <div class="mini-stat"><div class="ms-val" style="color:${excD>0?'var(--red)':'var(--text3)'}">${excD>0?'+'+fmtM(totalExc):'—'}</div><div class="ms-lbl">Total excess</div></div>
+            <div class="mini-stat"><div class="ms-val" style="color:var(--accent)">${fmtH(totalWork)}</div><div class="ms-lbl">Total work hrs</div></div>
           </div>
           <div class="tbl-wrap">
             <table>
-              <thead><tr>
-                <th>Date</th><th>In time</th><th>Out time</th><th>Shift</th>
-                <th>Work duration</th><th>Break time</th><th>Exceeded by</th><th>Status</th>
-              </tr></thead>
+              <thead><tr><th>Date</th><th>In</th><th>Out</th><th>Shift</th><th>Work dur.</th><th>Break time</th><th>Exceeded by</th><th>Status</th></tr></thead>
               <tbody>${dayRows}</tbody>
             </table>
           </div>
-          <div style="font-size:10px;color:var(--text3);margin-top:.5rem">Break limit: ${LIMIT} min · System punches (SE) excluded · Work duration = total time inside</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:.5rem">Break limit: ${LIMIT} min · System punches (SE) excluded</div>
         </div>
       </div>
     </div>`;
@@ -862,292 +1106,112 @@ function toggleEmp(i){
   h.classList.toggle('open',!open);
 }
 
-/* ════════════════════════════════
-   CSV EXPORT
-════════════════════════════════ */
-function buildCSVRows(days, empCode, empName){
-  const header=['Emp Code','Employee Name','Date','In Time','Out Time','Shift','Work Duration (min)','Break Time (min)','Break Time','Exceeded Limit','Exceeded By (min)','Exceeded By','Status'];
-  const rows=days.map(d=>[
-    empCode,
-    empName,
-    d.date,
-    d.inTime||'',
-    d.outTime||'',
-    d.shift,
-    Math.round(d.workMins),
-    Math.round(d.breakMins),
-    fmtM(d.breakMins),
-    d.exceeded?'YES':'NO',
-    d.exceeded?Math.round(d.excess):'',
-    d.exceeded?'+'+fmtM(d.excess):'',
-    d.exceeded?'Exceeded':'OK'
-  ]);
-  return [header,...rows];
+/* ═══ CSV EXPORT ═══ */
+function buildCSVRows(days,empCode,empName,dept){
+  const header=['Emp Code','Employee Name','Department','Date','In Time','Out Time','Shift','Work Duration (min)','Break Time (min)','Break Time','Exceeded Limit','Exceeded By (min)','Exceeded By','Status'];
+  const rows=days.map(d=>[empCode,empName,dept||'',d.date,d.inTime||'',d.outTime||'',d.shift,Math.round(d.workMins),Math.round(d.breakMins),fmtM(d.breakMins),d.exceeded?'YES':'NO',d.exceeded?Math.round(d.excess):'',d.exceeded?'+'+fmtM(d.excess):'',d.exceeded?'Exceeded':'OK']);
+  return[header,...rows];
 }
+function rowsToCSV(rows){return rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');}
+function downloadCSV(csv,filename){const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);}
 
-function rowsToCSV(rows){
-  return rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-}
-
-function downloadCSV(csv, filename){
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=filename;a.click();
-  URL.revokeObjectURL(url);
-}
-
-function downloadEmpCSV(code, name, idx){
+function downloadEmpCSV(code,name){
   const groups=groupByEmp(records);
   const g=groups.find(g=>g.code===code&&g.name===name);
   if(!g)return;
-  const rows=buildCSVRows(g.days,g.code,g.name);
-  downloadCSV(rowsToCSV(rows),`break_report_${(name||code).replace(/[^a-z0-9]/gi,'_')}.csv`);
+  downloadCSV(rowsToCSV(buildCSVRows(g.days,g.code,g.name,g.dept)),`break_report_${(name||code).replace(/[^a-z0-9]/gi,'_')}.csv`);
 }
-
 function downloadAllCSV(){
-  const q=document.getElementById('emp-search').value.toLowerCase();
+  const df_dept=document.getElementById('emp-dept').value;
   const sf=document.getElementById('emp-shift').value;
   const st=document.getElementById('emp-status').value;
   const df=document.getElementById('emp-date').value;
   let groups=groupByEmp(records);
-  if(q)groups=groups.filter(g=>g.name.toLowerCase().includes(q)||g.code.toLowerCase().includes(q));
+  if(df_dept)groups=groups.filter(g=>g.dept===df_dept);
   if(sf)groups=groups.filter(g=>g.shift===sf);
   if(df)groups=groups.map(g=>({...g,days:g.days.filter(d=>d.date===df)})).filter(g=>g.days.length);
   if(st==='exceeded')groups=groups.filter(g=>g.days.some(d=>d.exceeded));
   if(st==='ok')groups=groups.filter(g=>g.days.every(d=>!d.exceeded));
   if(!groups.length){alert('No data to export.');return;}
-  const header=['Emp Code','Employee Name','Date','In Time','Out Time','Shift','Work Duration (min)','Break Time (min)','Break Time','Exceeded Limit','Exceeded By (min)','Exceeded By','Status'];
+  const header=['Emp Code','Employee Name','Department','Date','In Time','Out Time','Shift','Work Duration (min)','Break Time (min)','Break Time','Exceeded Limit','Exceeded By (min)','Exceeded By','Status'];
   const allRows=[header];
-  for(const g of groups){
-    const rows=buildCSVRows(g.days,g.code,g.name);
-    allRows.push(...rows.slice(1));
-  }
+  for(const g of groups){const rows=buildCSVRows(g.days,g.code,g.name,g.dept);allRows.push(...rows.slice(1));}
   downloadCSV(rowsToCSV(allRows),'break_report_all_employees.csv');
 }
 
-/* ════════════════════════════════
-   CHARTS
-════════════════════════════════ */
+/* ═══ CHARTS ═══ */
 function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 
 function renderCharts(){
-  destroyChart('c2');destroyChart('c5');destroyChart('c6');
+  destroyChart('c2');destroyChart('c5');destroyChart('c6');destroyChart('c7');
 
-  /* ── C2: Daily trend — employees exceeded per date (red bars only) ── */
+  // C2: Daily trend
   const dateMap={};
-  records.forEach(r=>{
-    if(!dateMap[r.date])dateMap[r.date]=0;
-    if(r.exceeded)dateMap[r.date]++;
-  });
+  records.forEach(r=>{if(!dateMap[r.date])dateMap[r.date]=0;if(r.exceeded)dateMap[r.date]++;});
   const sortedDates=Object.keys(dateMap).sort();
   const shortDates=sortedDates.map(d=>d.replace(/-\d{4}$/,''));
   const excCounts=sortedDates.map(d=>dateMap[d]);
-  // gradient-style: darker red for higher counts
-  const maxExc=Math.max(...excCounts,1);
-  const barColorsC2=excCounts.map(v=>{
-    const intensity=Math.round(80+v/maxExc*100);
-    return v===0?'#E2E8F0':'#DC2626';
-  });
   charts.c2=new Chart(document.getElementById('c2'),{
     type:'bar',
-    data:{
-      labels:shortDates,
-      datasets:[{
-        label:'Employees exceeded',
-        data:excCounts,
-        backgroundColor:barColorsC2,
-        borderRadius:4,
-        borderSkipped:false
-      }]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} employee${ctx.parsed.y!==1?'s':''} exceeded`}}
-      },
-      scales:{
-        x:{ticks:{autoSkip:true,maxRotation:45,font:{size:9}},grid:{display:false}},
-        y:{ticks:{font:{size:10},stepSize:1},beginAtZero:true,title:{display:true,text:'Employees exceeded',font:{size:10}}}
-      }
-    }
+    data:{labels:shortDates,datasets:[{label:'Exceeded',data:excCounts,backgroundColor:excCounts.map(v=>v===0?'#E2E8F0':'#DC2626'),borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{autoSkip:true,maxRotation:45,font:{size:9}},grid:{display:false}},y:{ticks:{font:{size:10},stepSize:1},beginAtZero:true}}}
   });
 
-  /* ── C5: Avg break per employee top 20 ── */
+  // C5: Avg break top 20
   const groups=groupByEmp(records);
   const top20=groups.slice(0,20).sort((a,b)=>avg(b.days.map(d=>d.breakMins))-avg(a.days.map(d=>d.breakMins)));
   const avgBreaks=top20.map(g=>Math.round(avg(g.days.map(d=>d.breakMins))));
-  const shiftColorBars=top20.map(g=>avgBreaks[top20.indexOf(g)]>LIMIT
-    ? '#DC2626'
-    : (SHIFT_COLORS[g.shift]||'#94A3B8')+'99'
-  );
   charts.c5=new Chart(document.getElementById('c5'),{
     type:'bar',
-    data:{
-      labels:top20.map(g=>g.name.split(' ')[0]),
-      datasets:[{
-        label:'Avg break (min)',
-        data:avgBreaks,
-        backgroundColor:shiftColorBars,
-        borderRadius:5,
-        borderSkipped:false
-      }]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{
-          label:ctx=>`${ctx.parsed.y} min avg`,
-          afterLabel:ctx=>{const g=top20[ctx.dataIndex];return`Shift: ${g.shift}`;}
-        }}
-      },
-      scales:{
-        x:{ticks:{font:{size:10},maxRotation:45},grid:{display:false}},
-        y:{
-          ticks:{font:{size:10}},beginAtZero:true,
-          title:{display:true,text:'Minutes',font:{size:10}},
-          afterDataLimits(scale){scale.max=Math.max(scale.max,LIMIT+20);},
-        }
-      }
-    },
-    plugins:[{
-      id:'limitLine',
-      afterDraw(chart){
-        const{ctx,scales:{y,x}}=chart;
-        const yPos=y.getPixelForValue(LIMIT);
-        ctx.save();
-        ctx.strokeStyle='#DC2626';
-        ctx.lineWidth=1.5;
-        ctx.setLineDash([6,4]);
-        ctx.beginPath();
-        ctx.moveTo(x.left,yPos);
-        ctx.lineTo(x.right,yPos);
-        ctx.stroke();
-        ctx.fillStyle='#DC2626';
-        ctx.font='bold 10px sans-serif';
-        ctx.fillText(`Limit ${LIMIT}m`,x.right+4,yPos+4);
-        ctx.restore();
-      }
-    }]
+    data:{labels:top20.map(g=>g.name.split(' ')[0]),datasets:[{label:'Avg break (min)',data:avgBreaks,backgroundColor:avgBreaks.map(v=>v>LIMIT?'#DC2626':'#60A5FA'),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:10}},beginAtZero:true,afterDataLimits(s){s.max=Math.max(s.max,LIMIT+20);}}}},
+    plugins:[{id:'ll',afterDraw(chart){const{ctx,scales:{y,x}}=chart;const yp=y.getPixelForValue(LIMIT);ctx.save();ctx.strokeStyle='#DC2626';ctx.lineWidth=1.5;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(x.left,yp);ctx.lineTo(x.right,yp);ctx.stroke();ctx.fillStyle='#DC2626';ctx.font='bold 10px sans-serif';ctx.fillText(`Limit ${LIMIT}m`,x.right+4,yp+4);ctx.restore();}}]
   });
 
-  /* ── C6: Violations by shift — grouped bars (exceeded vs ok) colored per shift ── */
-  const shiftViol={},shiftTotal={};
-  SHIFTS.forEach(s=>{shiftViol[s]=0;shiftTotal[s]=0;});
-  records.forEach(r=>{
-    shiftTotal[r.shift]=(shiftTotal[r.shift]||0)+1;
-    if(r.exceeded)shiftViol[r.shift]=(shiftViol[r.shift]||0)+1;
+  // C6: Violations by department
+  const depts=getAllDepts();
+  const deptViol={},deptOk={};
+  depts.forEach(d=>{deptViol[d]=new Set();deptOk[d]=new Set();});
+  const gr2=groupByEmp(records);
+  gr2.forEach(g=>{
+    if(!g.dept)return;
+    if(g.days.some(d=>d.exceeded))deptViol[g.dept].add(g.code);
+    else deptOk[g.dept].add(g.code);
   });
-  const activeShifts=SHIFTS.filter(s=>shiftTotal[s]>0);
-
-  // Build legend
-  document.getElementById('leg-shift').innerHTML=`
-    <span><span class="legend-dot" style="background:#DC2626"></span>Exceeded</span>
-    <span><span class="legend-dot" style="background:#CBD5E1"></span>Within limit</span>`;
-
-  // Count unique employees per shift who exceeded vs stayed within
-  const shiftEmpViol={}, shiftEmpOk={};
-  SHIFTS.forEach(s=>{shiftEmpViol[s]=new Set();shiftEmpOk[s]=new Set();});
-  const groups2=groupByEmp(records);
-  groups2.forEach(g=>{
-    const anyExc=g.days.some(d=>d.exceeded);
-    if(anyExc) shiftEmpViol[g.shift].add(g.code+'__'+g.name);
-    else shiftEmpOk[g.shift].add(g.code+'__'+g.name);
-  });
-
-  const exceededVals=activeShifts.map(s=>shiftEmpViol[s].size);
-  const okVals=activeShifts.map(s=>shiftEmpOk[s].size);
-  const totalPerShift=activeShifts.map(s=>shiftEmpViol[s].size+shiftEmpOk[s].size);
-  const pctVals=activeShifts.map((s,i)=>totalPerShift[i]?Math.round(shiftEmpViol[s].size/totalPerShift[i]*100):0);
-
+  const activeDepts=depts.filter(d=>deptViol[d].size+deptOk[d].size>0);
+  document.getElementById('leg-dept').innerHTML=`<span><span class="legend-dot" style="background:#DC2626"></span>Exceeded</span><span><span class="legend-dot" style="background:#CBD5E1"></span>Within limit</span>`;
   charts.c6=new Chart(document.getElementById('c6'),{
     type:'bar',
     data:{
-      labels:activeShifts,
+      labels:activeDepts,
       datasets:[
-        {
-          label:'Exceeded',
-          data:exceededVals,
-          backgroundColor:activeShifts.map(s=>SHIFT_COLORS[s]||'#888'),
-          borderRadius:5,
-          borderSkipped:false
-        },
-        {
-          label:'Within limit',
-          data:okVals,
-          backgroundColor:'#CBD5E1',
-          borderRadius:5,
-          borderSkipped:false
-        }
+        {label:'Exceeded',data:activeDepts.map(d=>deptViol[d].size),backgroundColor:activeDepts.map((d,i)=>DEPT_PALETTE[i%DEPT_PALETTE.length]),borderRadius:5,borderSkipped:false},
+        {label:'Within limit',data:activeDepts.map(d=>deptOk[d].size),backgroundColor:'#CBD5E1',borderRadius:5,borderSkipped:false}
       ]
     },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          callbacks:{
-            title:ctx=>`${ctx[0].label}`,
-            label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y} employees`
-          }
-        }
-      },
-      scales:{
-        x:{ticks:{font:{size:11}},grid:{display:false}},
-        y:{
-          ticks:{font:{size:10},stepSize:1},
-          beginAtZero:true,
-          title:{display:true,text:'Employees',font:{size:10}}
-        }
-      }
-    },
-    plugins:[{
-      id:'pctLabels',
-      afterDatasetsDraw(chart){
-        const{ctx}=chart;
-        const meta=chart.getDatasetMeta(0);
-        meta.data.forEach((bar,i)=>{
-          const val=exceededVals[i];
-          if(!val)return;
-          const pct=pctVals[i];
-          ctx.save();
-          ctx.fillStyle=SHIFT_COLORS[activeShifts[i]]||'#555';
-          ctx.font='bold 11px sans-serif';
-          ctx.textAlign='center';
-          ctx.textBaseline='bottom';
-          ctx.fillText(`${pct}%`,bar.x,bar.y-4);
-          ctx.restore();
-        });
-      }
-    }]
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}`}}},scales:{x:{ticks:{font:{size:10},maxRotation:30},grid:{display:false}},y:{ticks:{font:{size:10},stepSize:1},beginAtZero:true}}}
+  });
+
+  // C7: Violations by shift
+  const shiftEmpViol={},shiftEmpOk={};
+  SHIFTS.forEach(s=>{shiftEmpViol[s]=new Set();shiftEmpOk[s]=new Set();});
+  gr2.forEach(g=>{
+    if(g.days.some(d=>d.exceeded))shiftEmpViol[g.shift].add(g.code+'__'+g.name);
+    else shiftEmpOk[g.shift].add(g.code+'__'+g.name);
+  });
+  const activeShifts=SHIFTS.filter(s=>shiftEmpViol[s].size+shiftEmpOk[s].size>0);
+  const excVals=activeShifts.map(s=>shiftEmpViol[s].size);
+  const okVals=activeShifts.map(s=>shiftEmpOk[s].size);
+  const totals=activeShifts.map(s=>shiftEmpViol[s].size+shiftEmpOk[s].size);
+  const pctVals=activeShifts.map((s,i)=>totals[i]?Math.round(shiftEmpViol[s].size/totals[i]*100):0);
+  document.getElementById('leg-shift').innerHTML=`<span><span class="legend-dot" style="background:#DC2626"></span>Exceeded</span><span><span class="legend-dot" style="background:#CBD5E1"></span>Within limit</span>`;
+  charts.c7=new Chart(document.getElementById('c7'),{
+    type:'bar',
+    data:{labels:activeShifts,datasets:[{label:'Exceeded',data:excVals,backgroundColor:activeShifts.map(s=>SHIFT_COLORS[s]||'#888'),borderRadius:5,borderSkipped:false},{label:'Within limit',data:okVals,backgroundColor:'#CBD5E1',borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:11}},grid:{display:false}},y:{ticks:{font:{size:10},stepSize:1},beginAtZero:true}}},
+    plugins:[{id:'pct',afterDatasetsDraw(chart){const{ctx}=chart;const meta=chart.getDatasetMeta(0);meta.data.forEach((bar,i)=>{const val=excVals[i];if(!val)return;ctx.save();ctx.fillStyle=SHIFT_COLORS[activeShifts[i]]||'#555';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(`${pctVals[i]}%`,bar.x,bar.y-4);ctx.restore();});}}]
   });
 }
-
-/* ════════════════════════════════
-   FILE UPLOAD
-════════════════════════════════ */
-document.getElementById('fi').addEventListener('change',function(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=function(ev){
-    const wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
-    records=processWB(wb);
-    if(!records.length){alert('No Present records with punch data found. Please check the file format.');return;}
-    afterLoad(f.name);
-  };
-  r.readAsArrayBuffer(f);
-});
-const dz=document.getElementById('dz');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='var(--accent)';dz.style.background='var(--accent-light)';});
-dz.addEventListener('dragleave',()=>{dz.style.borderColor='';dz.style.background='';});
-dz.addEventListener('drop',e=>{
-  e.preventDefault();dz.style.borderColor='';dz.style.background='';
-  const f=e.dataTransfer.files[0];
-  if(f){document.getElementById('fi').files=e.dataTransfer.files;document.getElementById('fi').dispatchEvent(new Event('change'));}
-});
 </script>
 </body>
 </html>
